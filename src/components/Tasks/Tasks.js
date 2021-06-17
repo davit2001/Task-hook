@@ -35,7 +35,7 @@ export default function Tasks() {
       image: imageUrl 
   }])
 
-  const [id, setId] = useState(null)
+
 
   const addTask = (title, message, image) => {
     setTasks([
