@@ -6,5 +6,9 @@ export const useStyles = makeStyles({
          alignIitems: "center",
          flexDirection: "row",
          flexWrap: "wrap"
+      },
+      item: {
+          maxWidth: 300,
+         wordWrap: 'break-word'
       }
 })

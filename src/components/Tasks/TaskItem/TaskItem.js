@@ -9,13 +9,11 @@ import { Typography } from '@material-ui/core';
 import {format} from 'date-fns';
 import "@reach/menu-button/styles.css";
 import TaskMenu from './TaskMenu';
-import { useStyles } from './styles';
 
 
 export default function TaskItem({task}) {
-  const classes = useStyles()
   return (
-      <Card className = {classes.root} elevation={8}>
+      <Card  elevation={1}>
            <CardHeader
              avatar = {
                  <Avatar src = {task.image}/>
@@ -29,7 +27,7 @@ export default function TaskItem({task}) {
           </CardHeader>
         
           <CardContent>
-              <Typography >
+              <Typography variant = "body2"  color="textSecondary" >
                      {task.message}
               </Typography>
           </CardContent>

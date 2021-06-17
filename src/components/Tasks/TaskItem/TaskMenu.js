@@ -7,7 +7,7 @@ import {
     MenuLink,
   } from "@reach/menu-button";
 
-import { useStyles } from './styles';
+ import { useStyles } from './styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useContext } from 'react';
 import { TaskRemoveContext, TaskEditContext } from '../Tasks';

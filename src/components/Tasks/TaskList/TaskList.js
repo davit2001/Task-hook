@@ -1,18 +1,30 @@
-import { Grid} from '@material-ui/core'
 import React from 'react'
 import TaskItem from '../TaskItem/TaskItem'
-import { useStyles } from './styles';
+import { useStyles } from './styles'
+import Masonry from 'react-masonry-css'
+import { Container } from '@material-ui/core'
 
 export default function TaskList({tasks}) {
-    const classes = useStyles();
-  return (
-        <Grid container spacing = {4} className = {classes.container}>
-            {tasks.map(task => (
-                <Grid key = {task.id} item>
-                   <TaskItem key = {task.id} task = {task}/>
-                </Grid>
-            ))}
-        </Grid>
-    )
-}
 
+ const breakpoints = {
+   default: 3,
+   1130: 2,
+   540: 1
+ }
+ const classes = useStyles();
+  return (
+    <Container>
+      <Masonry
+        breakpointCols={breakpoints}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
+           { tasks.map(task => (
+             <div  key = {task.id} className = {classes.item}>
+                <TaskItem    task = {task}/>
+             </div>
+            )) }
+      </Masonry>
+    </Container>
+  )
+}

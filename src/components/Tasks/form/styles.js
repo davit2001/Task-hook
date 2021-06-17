@@ -2,7 +2,10 @@ import { makeStyles } from "@material-ui/core"
 export const useStyles = makeStyles((theme) => {
     return {
       paper: {
-          padding:  theme.spacing(3)
+          padding:  theme.spacing(3),
+          [theme.breakpoints.between('xs', 'sm')]: {
+            marginBottom: theme.spacing(3)
+          }
       },
       form: {
           width: '18rem',

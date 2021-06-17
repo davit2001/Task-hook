@@ -4,6 +4,7 @@ import TaskForm from './form/TaskForm'
 import TaskList from './TaskList/TaskList'
 import { useState } from 'react';
 import { useStyles } from './styles';
+import { v4 as uuid } from 'uuid';
 
 export const TaskRemoveContext = React.createContext('')
 export const TaskEditContext = React.createContext('')
@@ -13,22 +14,22 @@ const imageUrl = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_9
 export default function Tasks() {
     const classes = useStyles()
     const [tasks, setTasks] =  useState([{
-      id: 1,
+      id: uuid(),
       title: 'task 1',
       message: 'message 1',
       image: imageUrl 
    },{ 
-       id: 2,
+       id: uuid(),
        title: 'task 2',
        message: 'message 2',
       image: imageUrl 
    },{ 
-       id: 3,
+       id: uuid(),
        title: 'task 3',
        message: 'message 3',
       image: imageUrl
    },{ 
-       id: 4,
+       id: uuid(),
        title: 'task 4',
        message: 'message 4',
       image: imageUrl 
@@ -40,7 +41,7 @@ export default function Tasks() {
     setTasks([
         ...tasks, 
         {
-            id: Math.floor(Math.random() * 1000),
+            id: uuid(),
             title, 
             message, 
             image
@@ -53,7 +54,7 @@ export default function Tasks() {
     setTasks(data)
   }
 
-  const updateTask = (id, title, message, image) => {
+  const updateTask = (id, title, message, image = imageUrl) => {
      const data = tasks.filter(task => {
         if (task.id === id)  { 
             task.title = title
@@ -73,9 +74,9 @@ export default function Tasks() {
  let task = useMemo(() => tasks.find(task => task.id == id), [id])
  
     return (
-      <Container>
-          <div className = {classes.container}>
-            <Grid item >
+      <Container className = {classes.root}>
+          <Grid  className = {classes.container} >
+            <Grid item  >
                 <TaskRemoveContext.Provider value = {removeTask}>
                      <TaskEditContext.Provider value = {editTask}>
                            <TaskList tasks = {tasks}/>
@@ -91,7 +92,7 @@ export default function Tasks() {
                    task = {task}
                   />
             </Grid>
-          </div> 
+          </Grid > 
      </Container>
     );
 }
