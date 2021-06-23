@@ -1,7 +1,8 @@
 import { makeStyles } from "@material-ui/core"
-export const useStyles = makeStyles((theme) =>{
-    return {
-        root: {
+import blue from '@material-ui/core/colors/blue';
+
+export const useStyles = makeStyles((theme) => ({
+     root: {
             [theme.breakpoints.up('sm')]: {
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -21,6 +22,17 @@ export const useStyles = makeStyles((theme) =>{
            [theme.breakpoints.up('md')]: {
               justifyContent: ' space-evenly'
            }
-        }
-    }
-})
+        }, 
+        fab: {
+            margin: theme.spacing(2),
+          },
+          iconButton: {
+           backgroundColor: blue[700],
+           color: '#FAFAFA',
+            '&:hover': {
+                backgroundColor: "#2196f3"
+            },
+            marginBottom: theme.spacing(2),
+            marginLeft: theme.spacing(2)
+          }
+}))

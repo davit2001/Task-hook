@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core"
-export const useStyles = makeStyles((theme) => {
-    return {
-      paper: {
+export const useStyles = makeStyles((theme) => ({
+    paper: {
           padding:  theme.spacing(3),
           [theme.breakpoints.between('xs', 'sm')]: {
             marginBottom: theme.spacing(3)
@@ -20,5 +19,4 @@ export const useStyles = makeStyles((theme) => {
       btn: {
           marginTop: theme.spacing(1)
       }
-    }
-})
+  }))

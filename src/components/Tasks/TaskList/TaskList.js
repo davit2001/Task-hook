@@ -11,6 +11,7 @@ export default function TaskList({tasks}) {
    1130: 2,
    540: 1
  }
+ 
  const classes = useStyles();
   return (
     <Container>

@@ -23,8 +23,6 @@ export default function TaskList({addTask, updateTask, task}) {
         } else {
             setError(true)
         }
-         
-        
         setTitle('')
         setMessage('')
         setImage('https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png')
@@ -49,7 +47,7 @@ export default function TaskList({addTask, updateTask, task}) {
                      color = "textSecondary"
                      align = "center"
                   > 
-                 {task?.id ? 'Edit Task' : 'Create Task'}
+                 {task?.id ? 'Edit Project' : 'Create Project'}
                 </Typography>
 
                 <TextField 
@@ -62,10 +60,10 @@ export default function TaskList({addTask, updateTask, task}) {
                     margin="normal"
                     error = {isError}
                     helperText = {isError && 'Fields must be required'}
+                    required
                  />
 
                 <TextField 
-                  
                   onChange={(e) => setMessage(e.target.value)}
                   value = {message}
                    label = "Summary" 
@@ -74,11 +72,11 @@ export default function TaskList({addTask, updateTask, task}) {
                    margin="normal"  
                    error = {isError}
                    helperText = {isError && 'Fields must be required'}
+                   required
                 />
-                
                  <div className={classes.fileInput}>
                    <FileBase type="file" multiple={false} onDone = {({base64}) => setImage(base64)} />
-                </div>
+                 </div>
                <Button 
                   onClick={handleSubmit}
                   variant = "contained"
@@ -86,8 +84,7 @@ export default function TaskList({addTask, updateTask, task}) {
                   color = "primary"
                  className = {classes.btn}
                 > {task?.id ? 'Update' :  'Add'}</Button>
-
-            </form>
+           </form>
         </Paper>
     )
 }
