@@ -1,7 +1,9 @@
-[data-reach-menu-list] {
-  background-color: #4886f8ed;
- 
+.my-masonry-grid_column {
+  width: auto!important;
+  padding-left: 30px; /* gutter size */
+  background-clip: padding-box;
 }
+
 
 body {
   margin: 0;
@@ -20,22 +22,6 @@ code {
 }
 
 
-.grey-highlight[data-reach-menu-item][data-selected] {
-  background: #eeeeee;
-  color:black;
-  
-}
-
-
-[data-reach-menu], [data-reach-menu-popover] {
-  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
-}
-
-[data-reach-menu-button]  {
-  cursor: pointer;
-}
-
-
 
 .my-masonry-grid {
   display: -webkit-box; /* Not needed if autoprefixing */
@@ -44,10 +30,7 @@ code {
   margin-left: -30px; /* gutter size offset */
   width: auto;
 }
-.my-masonry-grid_column {
-  padding-left: 30px; /* gutter size */
-  background-clip: padding-box;
-}
+
 
 /* Style your items */
 .my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */

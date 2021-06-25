@@ -9,8 +9,5 @@ export const useStyles = makeStyles((theme) => ({
         menuList: {
           backgroundColor: '#4886f8ed',
           color: 'white'
-        },
-        item: {
-          width: '300px'
         } 
 }))

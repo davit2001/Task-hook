@@ -1,126 +1,110 @@
 import React, { useCallback, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
-  Container,
-  Grid,
-  IconButton,
+  Grid, 
+  Typography,
+  IconButton
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 
-import TaskList from './TaskList/TaskList'
-import FormDialog from './Dialog/FormDialog';
-import TaskDialog from './Dialog/TaskDialog';
-import { useStyles } from './styles';
-import { v4 as uuid } from 'uuid';
-import Tooltip from './Tooltip/Tooltip'
+import { useParams } from 'react-router'
+import {fetchTaskUpdate, fetchTaskRemove} from '../../action/tasks'
+import TasksProjectInfo from './TasksProjectInfo/TasksProjectInfo';
+import TaskFormDialog from '../Tasks/Dialog/TaskFormDialog'
+import TaskList from '../Tasks/TaskList/TaskList'
+import TaskDialog from './Dialog/TaskDialog'
+import TaskSearch from './TaskSearch/TaskSearch'
+import TaskNavigationList from './TaskNavigation/TaskNavigationList/TaskNavigationList'
+import { useStyles } from './styles'
 
-export const TaskRemoveContext = React.createContext('')
-export const TaskEditContext = React.createContext('')
-
-const imageUrl = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+export const TaskContext = React.createContext('')
 
 export default function Tasks() {
-    const classes = useStyles()
+  let params = useParams()
+  let projectId =  params.id; 
 
-    const [editId, setEditId] = useState(null)
-    const [removeId, setRemoveId] = useState('')
-    const [isOpenDialog, setOpenDialog] = useState(false)
-    const [isOpenForm, setOpenForm] = useState(false)
+  let dispatch = useDispatch()
 
-    const [tasks, setTasks] =  useState([{
-      id: uuid(),
-      title: 'project 1',
-      message: 'message 1',
-      image: imageUrl 
-   },{ 
-       id: uuid(),
-       title: 'project 2',
-       message: 'message 2',
-      image: imageUrl 
-   },{ 
-       id: uuid(),
-       title: 'project 3',
-       message: 'message 3',
-      image: imageUrl
-   },{ 
-       id: uuid(),
-       title: 'project 4',
-       message: 'message 4',
-      image: imageUrl 
-  }])
+   const [editId, setEditId] = useState(null)
+   const [removeId, setRemoveId] = useState(null)
+   const [isOpenDialog, setOpenDialog] = useState(false)
+   const [isOpenForm, setOpenForm] = useState(false)
 
+   let project = useSelector((state) => state.projects.filter(project => project.id == projectId));
+   let tasks = useSelector((state) => state.tasks.tasks)
+   
+const removeProjectDialog = useCallback((id) => {
+    setRemoveId(id)
+    setOpenDialog(true)
+}, [])
 
+const removeProject = useCallback(() => {
+  setOpenDialog(false)
+  dispatch(fetchTaskRemove(removeId))
+  setRemoveId(null)
+}, [removeId])
 
-  const addTask = useCallback((title, message, image) => {
-    setTasks([
-        ...tasks, 
-        {
-            id: uuid(),
-            title, 
-            message, 
-            image
-        }
-    ])
-  }, [tasks])
+const updateTask = useCallback((data) => {
+   dispatch(fetchTaskUpdate(data))
+   setEditId('')
+}, [project])
 
-  const removeTaskDialog = useCallback((id) => {
-      setRemoveId(id)
-      setOpenDialog(true)
-  }, [])
+const editProject = useCallback((id) => {
+    setEditId(id)
+    setOpenForm(true)
+}, [])
 
-  const removeTask = useCallback(() => {
-    setOpenDialog(false)
-    let data = tasks.filter( task => task.id !== removeId)
-    setTasks(data)
-    setRemoveId(null)
-  }, [removeId])
-
-  const updateTask = useCallback((id, title, message, image = imageUrl) => {
-     const data = tasks.filter(task => {
-        if (task.id === id)  { 
-            task.title = title
-            task.message = message  
-            task.image = image
-          } 
-          return  task; 
-     })
-     setTasks(data)
-     setEditId('')
-  }, [tasks])
-
-  const editTask = useCallback((id) => {
-      setEditId(id)
-      setOpenForm(true)
- }, [])
-
- let task = useMemo(() => tasks.find(task => task.id == editId), [editId])
+  let task = useMemo(() => tasks.find(task => task.id == editId), [editId])
+  const classes = useStyles()
   return (
-    <Container className = {classes.root}>
-        <Grid  className = {classes.container} >
-             <Grid item >
-                  <IconButton className = {classes.iconButton} onClick = {() => setOpenForm(true)} >
-                        <AddIcon />
-                   </IconButton>
-                 <TaskRemoveContext.Provider value = {removeTaskDialog}>
-                      <TaskEditContext.Provider value = {editTask}>
-                           <TaskList tasks = {tasks}/>
-                      </TaskEditContext.Provider>
-                 </TaskRemoveContext.Provider>
-             </Grid>
-        </Grid > 
+    <>
+       <TasksProjectInfo projectId = {projectId}/>
 
-          <TaskDialog 
-              isOpenDialog = {isOpenDialog}
-              setOpenDialog = {setOpenDialog}
-              removeTask = {removeTask}
-          />
+        <IconButton onClick = {() => setOpenForm(true)} className = {classes.iconButton}  >
+             <AddIcon />
+        </IconButton>
 
-            <FormDialog 
-             isOpenForm = {isOpenForm} 
-             setOpenForm = {setOpenForm}
-             addTask = {addTask}
-             updateTask = {updateTask}
-             task = {task}
-            />
-     </Container>
-    );
+           <Grid 
+                container   
+                direction="row"
+                justify="space-evenly"
+                alignItems="stretch"
+               className = {classes.container}
+            >
+             <Grid item className={classes.item}>
+                  <TaskNavigationList projectId = {projectId}/>
+               </Grid>
+              
+              <Grid item className={classes.item} >
+                 <Typography variant = "h4" gutterBottom>
+                    Task Details
+                  </Typography>
+                  <TaskContext.Provider value = {{
+                           removeProjectDialog,
+                           editProject
+                    }}>
+                      <TaskList  projectId = {projectId}/>
+                   </TaskContext.Provider> 
+              </Grid>
+
+              <Grid item className={classes.item} >
+                  <TaskSearch />
+              </Grid>
+
+              <TaskDialog 
+                isOpenDialog = {isOpenDialog}
+                setOpenDialog = {setOpenDialog}
+                removeProject = {removeProject}
+             />
+              <TaskFormDialog 
+                 isOpenForm = {isOpenForm} 
+                 setOpenForm = {setOpenForm}
+                 projectId = {projectId}
+                 editId = {editId}
+                 updateTask = {updateTask}
+                 task = {task}
+             />
+          </Grid>
+        </>
+    )
 }

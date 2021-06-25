@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useStyles } from './styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useContext } from 'react';
-import { TaskContext } from '../Tasks';
+import { ProjectContext } from '../Projects';
 import {
   Menu,
   MenuItem,
@@ -10,22 +10,25 @@ import {
 } from '@material-ui/core'
 
   export default function ProjectMenu({id}) {
-    const {removeProjectDialog, editProject} = useContext(TaskContext)
+    const {removeProjectDialog, editProject} = useContext(ProjectContext)
 
     const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = useCallback((event) => {
+    event.stopPropagation()
     setAnchorEl(event.currentTarget);
   }, []);
  
-  const editItem = useCallback(() => {
+  const editItem = useCallback((event) => {
+     event.stopPropagation()
      editProject(id)
      setAnchorEl(null)   
   }, [])
 
-  const removeItem = useCallback(() => {
+  const removeItem = useCallback((event) => {
+    event.stopPropagation()
     removeProjectDialog(id)
     setAnchorEl(null)
   })
