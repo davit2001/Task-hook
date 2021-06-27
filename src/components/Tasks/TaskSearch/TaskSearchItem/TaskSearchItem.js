@@ -6,7 +6,13 @@ import  {
     Typography, 
   } from '@material-ui/core'
 import {format} from 'date-fns';
-import { useStyles } from './styles';
+import { makeStyles } from "@material-ui/core"
+
+ const useStyles = makeStyles((theme) => ({
+    item: {
+        marginTop: theme.spacing(3)
+    }
+}))
 
 export default function TaskSearchItem({task}) {
     const classes = useStyles()

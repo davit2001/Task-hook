@@ -11,7 +11,7 @@ export default function ProjectDialog({isOpenDialog, setOpenDialog, removeProjec
   }, []);
 
   return (
-    <div>
+    <>
      <Dialog
         open={isOpenDialog}
         onClose={handleClose}
@@ -31,6 +31,6 @@ export default function ProjectDialog({isOpenDialog, setOpenDialog, removeProjec
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

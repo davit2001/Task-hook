@@ -2,9 +2,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {Container, Grid, Typography} from '@material-ui/core'
 import TaskNavigationItem from '../TaskNavigationItem/TaskNavigationItem'
+import { projectTasksSelector } from '../../../../reducer/taskReducer'
 
 export default function TaskNavigationList({projectId}) {
-    const tasks = useSelector((state) => state.tasks.tasks.filter(task => task.projectId == projectId))
+    const tasks = useSelector(projectTasksSelector(projectId))
      return (
         <Container>
             <Grid item>

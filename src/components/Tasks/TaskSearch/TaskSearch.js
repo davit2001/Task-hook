@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Typography} from '@material-ui/core';
-import {Grid } from '@material-ui/core';
-import { useStyles } from './styles';
-import { useDispatch, useSelector } from 'react-redux';
+import {Grid} from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import TaskSearchForm from './TaskSearchForm/TaskSearchForm';
 import TaskSearchItem from './TaskSearchItem/TaskSearchItem';
+import { searchTasksSelector } from '../../../reducer/taskReducer';
 
 export default function TaskSearch() {
-    const classes = useStyles()
-   const tasks =  useSelector(state => state.tasks.searchTasks)
-   
+   const tasks =  useSelector(searchTasksSelector())
+
     return (
         <Grid >
             <Grid item>
@@ -19,13 +18,9 @@ export default function TaskSearch() {
               <TaskSearchForm />
             </Grid>
             <Grid item>
-                {tasks.length ? tasks.map(task => (
+                {tasks.length !== 0 && tasks.map(task => (
                           <TaskSearchItem task = {task}/>
-                ))  : (
-                    <Typography variant = "body1">
-                       empty
-                    </Typography>
-                    )
+                     ))
                 }
             </Grid>
         </Grid>

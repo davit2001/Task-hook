@@ -37,16 +37,20 @@ export const projectReducer = (state = initialState, action) => {
 
         case "UPDATE_PROJECT":
             let {id, title, message, image} = action.payload
-            return  state.filter(project => {
-                    if (project.id === id)  { 
-                        project.title = title
-                        project.message = message  
-                        project.image = image
-                      } 
-                      return  project; 
+            return  state.map(project => {
+                if (project.id === id) {
+                    let updatedProject = {...project};
+                     updatedProject.title = title;
+                     updatedProject.message = message;
+                     updatedProject.image = image;
+                     return updatedProject
+                  }
                  })   
                  
          default: 
             return state
     }
 }
+
+export const projectSelector = () => (state) => state.projects
+export const tasksProjectSelector = (projectId) => (state) => state.projects.find(project => project.id === projectId)

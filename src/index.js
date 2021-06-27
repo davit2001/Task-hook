@@ -5,15 +5,18 @@ import App from './App';
 import { createStore } from 'redux'
 import {Provider} from 'react-redux'
 import {rootReducer} from './reducer'
+import {BrowserRouter as Router} from 'react-router-dom'
 
 let store = createStore(
   rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 ReactDOM.render(
-  <Provider store = {store}>
-      <App />
-  </Provider>,
+  <Router basename = "/projects">
+    <Provider store = {store}>
+       <App />
+    </Provider>
+  </Router> ,
    document.getElementById('root')
 );
 

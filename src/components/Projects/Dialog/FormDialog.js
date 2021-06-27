@@ -10,16 +10,14 @@ import {Typography} from '@material-ui/core'
 import FileBase from 'react-file-base64'
 import { nanoid } from 'nanoid'
 import { fetchProjectAdd } from '../../../action/projects';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 
 export default function FormDialog({isOpenForm, setOpenForm, editId, task, updateTask}) {
 
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const [image, setImage] = useState('https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png')
- const [isError, setError] = useState(false)
- 
-
+  const [isError, setError] = useState(false)
  
 const dispatch = useDispatch()
 
@@ -87,8 +85,9 @@ useEffect(() => {
                 
                 </Typography>
         </DialogTitle>
+        <form  onSubmit = {handleSubmit}>
         <DialogContent>
-          <form  onSubmit = {handleSubmit}>
+        
               <TextField 
                   onChange={(e) => setTitle(e.target.value)}
                   value = {title}
@@ -115,7 +114,7 @@ useEffect(() => {
              <div>
                    <FileBase type="file" multiple={false} onDone = {({base64}) => setImage(base64)} />
              </div>
-          </form>
+         
              
         </DialogContent>
 
@@ -127,6 +126,7 @@ useEffect(() => {
               {task?.id ? 'Update' :  'Add'}
             </Button>
         </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

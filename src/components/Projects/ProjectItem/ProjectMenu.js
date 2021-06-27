@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react'
-import { useStyles } from './styles';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useContext } from 'react';
 import { ProjectContext } from '../Projects';
@@ -10,11 +9,8 @@ import {
 } from '@material-ui/core'
 
   export default function ProjectMenu({id}) {
-    const {removeProjectDialog, editProject} = useContext(ProjectContext)
-
-    const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = useState(null);
+    const {closeProjectDialog, editProject} = useContext(ProjectContext)
+    const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = useCallback((event) => {
     event.stopPropagation()
@@ -29,7 +25,7 @@ import {
 
   const removeItem = useCallback((event) => {
     event.stopPropagation()
-    removeProjectDialog(id)
+    closeProjectDialog(id)
     setAnchorEl(null)
   })
   const handleClose = () => {
@@ -40,13 +36,13 @@ import {
               <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                    <MoreVertIcon />
               </IconButton>
-
-                  <Menu
+                 <Menu
                     id= {id}
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
+                    onClick = {(e) => e.stopPropagation()}
                   >
                   <MenuItem onClick={editItem}>Edit</MenuItem>
                   <MenuItem onClick={removeItem}>Remove</MenuItem>

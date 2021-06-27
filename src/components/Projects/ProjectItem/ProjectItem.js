@@ -3,27 +3,28 @@ import {
     Card, 
     CardHeader,
     CardContent,
-    CardActionArea, 
     Avatar,
-    Typography
+    Typography,
+    makeStyles,
   } from '@material-ui/core';
-  
+
 import {format} from 'date-fns';
 import ProjectMenu from './ProjectMenu';
- import {useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+
+const useStyles = makeStyles({
+  Link: {
+    textDecoration: 'none'
+  }
+})
 
 export default function ProjectItem({project}) {
-  let history = useHistory()
-  const RedirectTask = () => {
-        history.push(`/${project.id}`)
-  }
+  const classes = useStyles()
    return (
-      <Card  elevation={1}>
-        <CardActionArea 
-        onClick = {RedirectTask}
-        >
-             <CardHeader
-                  avatar = {
+    <Link to = {`/${project.id}`} className = {classes.Link}>
+    <Card  elevation={1}>
+           <CardHeader
+                avatar = {
                       <Avatar src = {project.image}/>
                   }
                   action = {
@@ -39,7 +40,9 @@ export default function ProjectItem({project}) {
                           {project.message}
                    </Typography>
                </CardContent>
-        </CardActionArea>
-      </Card>
+       </Card>
+    </Link>
+      
+   
     )
 }

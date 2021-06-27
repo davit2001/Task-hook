@@ -18,7 +18,14 @@ import { fetchTaskAdd } from '../../../action/tasks';
 import { useDispatch } from 'react-redux';
 import { useStyles } from './styles';
 
-export default function FormDialog({isOpenForm, setOpenForm, editId, task, updateTask, projectId}) {
+export default function FormDialog({
+  isOpenForm,
+  setOpenForm,
+  editId,
+  task, 
+  updateTask,
+  projectId
+}) {
   const classes = useStyles();
 
   const [name, setName] = useState('')
@@ -93,7 +100,7 @@ useEffect(() => {
                      color = "textSecondary"
                      align = "center"
                   > 
-                  {task?.id ? 'Edit Project' : 'Create Project'}
+                  {task?.id ? 'Edit Task' : 'Create Task'}
                 </Typography>
         </DialogTitle>
         <DialogContent>

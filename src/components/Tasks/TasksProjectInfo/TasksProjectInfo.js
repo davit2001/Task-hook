@@ -1,17 +1,27 @@
 import React from 'react'
-import { Box, Typography } from '@material-ui/core'
+import { Box, makeStyles, Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux';
+import { tasksProjectSelector } from '../../../reducer/projectReducer'; 
+import { indigo} from '@material-ui/core/colors';
+
+const useStyles = makeStyles({
+    heading: {
+        color: indigo[700]
+    }
+})
+
 export default function TasksProjectInfo({projectId}) {
-   let projectTasks = useSelector((state) => state.projects.filter(project => project.id === projectId));
+    const classes = useStyles()
+   let projectTasks = useSelector(tasksProjectSelector(projectId));
     return (
         <>
         <Box display="flex" justifyContent="center" m={1} p={1}>
             <Box>
-                <Typography variant = "h2" gutterBottom>
-                  {projectTasks[0].title}
+                <Typography className = {classes.heading} variant = "h2"   gutterBottom>
+                  {projectTasks.title}
                 </Typography>
-                 <Typography variant = "h5">
-                  {projectTasks[0].message}
+                 <Typography className = {classes.heading} variant = "h5" >
+                  {projectTasks.message}
                  </Typography>
             </Box>
        </Box>

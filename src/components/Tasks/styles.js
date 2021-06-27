@@ -10,18 +10,7 @@ export const useStyles = makeStyles((theme) => ({
                flexDirection: 'column'
            }
        },
-        container: {
-          display: 'flex',
-          flexWrap: 'nowrap',
-          justifyContent: 'space-between',
-          [theme.breakpoints.between('xs','sm')]: {
-              flexWrap: 'wrap-reverse',
-              justifyContent: 'center'
-          },
-          [theme.breakpoints.up('md')]: {
-             justifyContent: ' space-evenly'
-          }
-       }, 
+        
        fab: {
            margin: theme.spacing(2),
          },
@@ -37,6 +26,7 @@ export const useStyles = makeStyles((theme) => ({
          item: {
              backgroundColor: grey[100],
              height: '46rem',
-             padding: theme.spacing(4)
+             padding: theme.spacing(4),
+             marginLeft: theme.spacing(3)
          }
   }))

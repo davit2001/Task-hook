@@ -10,11 +10,10 @@ import ProjectList from './ProjectList/ProjectList'
 import FormDialog from './Dialog/FormDialog';
 import ProjectDialog from './Dialog/ProjectDialog';
 import { useStyles } from './styles';
-import { nanoid } from 'nanoid'
 
 import {useDispatch, useSelector} from 'react-redux'
-import { fetchProjectAdd, fetchProjectRemove, fetchProjectUpdate } from '../../action/projects';
- 
+import { fetchProjectRemove, fetchProjectUpdate } from '../../action/projects';
+import { projectSelector } from '../../reducer/projectReducer'; 
 
 export const ProjectContext = React.createContext('')
 
@@ -26,27 +25,13 @@ export default function Projects() {
     const [isOpenDialog, setOpenDialog] = useState(false)
     const [isOpenForm, setOpenForm] = useState(false)
 
-    const projects = useSelector((state) => state.projects)
+    const projects = useSelector(projectSelector())
     const dispatch = useDispatch()
  
-const idd = useMemo(()=>{
-  return nanoid();
-},[])
-
-    const addProject = useCallback(({title, message, image}) => {
-      let newTask = {
-        id: idd,
-        title, 
-        message, 
-        image
-    }
-      dispatch(fetchProjectAdd(newTask))
-}, [])
-
-  const removeProjectDialog = useCallback((id) => {
-      setRemoveId(id)
-      setOpenDialog(true)
-  }, [])
+   const closeProjectDialog = useCallback((id) => {
+       setRemoveId(id)
+       setOpenDialog(true)
+   }, [])
 
   const removeProject = useCallback(() => {
     setOpenDialog(false)
@@ -74,7 +59,7 @@ const idd = useMemo(()=>{
                         <AddIcon />
                    </IconButton>
                  <ProjectContext.Provider value = {{
-                      removeProjectDialog,
+                      closeProjectDialog,
                       editProject
                    }}>
                         <ProjectList />
@@ -89,11 +74,11 @@ const idd = useMemo(()=>{
           />
 
             <FormDialog 
-             isOpenForm = {isOpenForm} 
-             setOpenForm = {setOpenForm}
-             editId = {editId}
-             updateTask = {updateTask}
-             task = {task}
+               isOpenForm = {isOpenForm} 
+               setOpenForm = {setOpenForm}
+               editId = {editId}
+               updateTask = {updateTask}
+               task = {task}
             />
      </Container>
     );

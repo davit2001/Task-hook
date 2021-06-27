@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   Grid, 
@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add';
 
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import {fetchTaskUpdate, fetchTaskRemove} from '../../action/tasks'
 import TasksProjectInfo from './TasksProjectInfo/TasksProjectInfo';
 import TaskFormDialog from '../Tasks/Dialog/TaskFormDialog'
@@ -16,24 +16,29 @@ import TaskDialog from './Dialog/TaskDialog'
 import TaskSearch from './TaskSearch/TaskSearch'
 import TaskNavigationList from './TaskNavigation/TaskNavigationList/TaskNavigationList'
 import { useStyles } from './styles'
+import { tasksSelector } from '../../reducer/taskReducer';
+import { fetchTaskSearch } from '../../action/tasks';
 
 export const TaskContext = React.createContext('')
 
 export default function Tasks() {
-  let params = useParams()
+  const dispatch = useDispatch()
+  const params = useParams()
   let projectId =  params.id; 
 
-  let dispatch = useDispatch()
+   useEffect(() => {
+     dispatch(fetchTaskSearch(null))
+   }, [projectId])
+  
+  const tasks = useSelector(tasksSelector())
 
    const [editId, setEditId] = useState(null)
    const [removeId, setRemoveId] = useState(null)
    const [isOpenDialog, setOpenDialog] = useState(false)
    const [isOpenForm, setOpenForm] = useState(false)
 
-   let project = useSelector((state) => state.projects.filter(project => project.id == projectId));
-   let tasks = useSelector((state) => state.tasks.tasks)
    
-const removeProjectDialog = useCallback((id) => {
+const closeProjectDialog = useCallback((id) => {
     setRemoveId(id)
     setOpenDialog(true)
 }, [])
@@ -47,12 +52,12 @@ const removeProject = useCallback(() => {
 const updateTask = useCallback((data) => {
    dispatch(fetchTaskUpdate(data))
    setEditId('')
-}, [project])
+}, [tasks])
 
 const editProject = useCallback((id) => {
     setEditId(id)
     setOpenForm(true)
-}, [])
+}, [tasks])
 
   let task = useMemo(() => tasks.find(task => task.id == editId), [editId])
   const classes = useStyles()
@@ -67,9 +72,8 @@ const editProject = useCallback((id) => {
            <Grid 
                 container   
                 direction="row"
-                justify="space-evenly"
+                justify="center"
                 alignItems="stretch"
-               className = {classes.container}
             >
              <Grid item className={classes.item}>
                   <TaskNavigationList projectId = {projectId}/>
@@ -80,7 +84,7 @@ const editProject = useCallback((id) => {
                     Task Details
                   </Typography>
                   <TaskContext.Provider value = {{
-                           removeProjectDialog,
+                           closeProjectDialog,
                            editProject
                     }}>
                       <TaskList  projectId = {projectId}/>

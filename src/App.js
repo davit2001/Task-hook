@@ -1,15 +1,16 @@
 import './App.css';
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
+import { Route, Switch, Redirect} from 'react-router-dom'
 import Projects from './components/Projects/Projects'
  import Tasks from './components/Tasks/Tasks'
  
 function App() {
   return (
     <>
-    <Router basename = "/projects">
-          <Route exact path = "/" component={Projects} />
-          <Route exact path = "/:id" component = {Tasks} />
-     </Router>
+    <Switch>
+       <Route path='/' exact component={Projects}/>
+       <Route path='/:id' exact  component={Tasks}/>
+     </Switch>
+      <Redirect from='*' to = "/" />
      </>
   );
 }

@@ -2,7 +2,13 @@ import React, { useCallback, useState } from 'react'
 import {TextField, Button} from '@material-ui/core/';
 import { useDispatch } from 'react-redux';
 import { fetchTaskSearch } from '../../../../action/tasks';
-import { useStyles } from './styles';
+import { makeStyles } from "@material-ui/core";
+
+ const useStyles = makeStyles({
+    button: {
+        padding: '14.5px 12px'
+    }
+ });
 
 export default function TaskSearchForm() {
   

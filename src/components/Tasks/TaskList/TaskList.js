@@ -1,20 +1,33 @@
 import React from 'react'
 import ProjectItem from '../TaskItem/TaskItem'
-import { useStyles } from './styles'
 import Masonry from 'react-masonry-css'
-import { Container, Typography } from '@material-ui/core'
+import { Container, Typography, makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
+import { projectTasksSelector } from '../../../reducer/taskReducer'
+
+const useStyles = makeStyles({
+  container: {
+      display: "flex",
+       alignIitems: "center",
+       flexDirection: "row",
+       flexWrap: "wrap"
+    },
+    item: {
+        maxWidth: 300,
+       wordWrap: 'break-word'
+    }
+})
 
 export default function ProjectList({projectId}) {
-    const tasks = useSelector((state) => state.tasks.tasks.filter(task => task.projectId == projectId))
+  const classes = useStyles()
+  const tasks = useSelector(projectTasksSelector(projectId))
 
  const breakpoints = {
    default: 3,
    1130: 2,
    540: 1
  }
- 
- const classes = useStyles();
+
   return (
     <Container>
      {tasks.length ? <Masonry
