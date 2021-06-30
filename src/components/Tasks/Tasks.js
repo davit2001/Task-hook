@@ -16,7 +16,7 @@ import TaskDialog from './Dialog/TaskDialog'
 import TaskSearch from './TaskSearch/TaskSearch'
 import TaskNavigationList from './TaskNavigation/TaskNavigationList/TaskNavigationList'
 import { useStyles } from './styles'
-import { tasksSelector } from '../../reducer/taskReducer';
+import { tasksSelector } from '../../reducer/tasks/tasksReducer';
 import { fetchTaskSearch } from '../../action/tasks';
 
 export const TaskContext = React.createContext('')

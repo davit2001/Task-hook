@@ -1,4 +1,12 @@
 import { nanoid } from 'nanoid';
+import {
+    ADD_PROJECT,
+    REMOVE_PROJECT,
+    UPDATE_PROJECT
+} from '../../actionTypes/projectTypes'
+
+import { projectReducer } from './projectReducer';
+
 const imageUrl = 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
 
 const initialState = [
@@ -24,29 +32,23 @@ const initialState = [
   }
 ]
 
-export const projectReducer = (state = initialState, action) => {
+
+
+export const projectsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD_PROJECT': 
+        case ADD_PROJECT: 
             return [
                 ...state,
                 action.payload
             ]
 
-        case "REMOVE_PROJECT":
-           return state.filter( task => task.id !== action.payload.id)
+        case REMOVE_PROJECT:
+           return state.filter( project => projectReducer(project, action))
 
-        case "UPDATE_PROJECT":
-            let {id, title, message, image} = action.payload
-            return  state.map(project => {
-                if (project.id === id) {
-                    let updatedProject = {...project};
-                     updatedProject.title = title;
-                     updatedProject.message = message;
-                     updatedProject.image = image;
-                     return updatedProject
-                  }
-                 })   
-                 
+        case UPDATE_PROJECT:
+           return  state.map( project => {
+                       return projectReducer(project, action)
+                })   
          default: 
             return state
     }

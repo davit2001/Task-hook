@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, makeStyles, Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux';
-import { tasksProjectSelector } from '../../../reducer/projectReducer'; 
+import { tasksProjectSelector } from '../../../reducer/projects/projectsReducer';
 import { indigo} from '@material-ui/core/colors';
 
 const useStyles = makeStyles({

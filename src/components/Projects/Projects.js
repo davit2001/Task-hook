@@ -13,7 +13,7 @@ import { useStyles } from './styles';
 
 import {useDispatch, useSelector} from 'react-redux'
 import { fetchProjectRemove, fetchProjectUpdate } from '../../action/projects';
-import { projectSelector } from '../../reducer/projectReducer'; 
+import { projectSelector } from '../../reducer/projects/projectsReducer';
 
 export const ProjectContext = React.createContext('')
 

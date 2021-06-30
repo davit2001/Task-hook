@@ -13,8 +13,9 @@ import {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = useCallback((event) => {
-    setAnchorEl(event.currentTarget);
-  }, []);
+      event.stopPropagation()
+       setAnchorEl(event.currentTarget);
+    }, []);
  
   const editItem = useCallback(() => {
      editProject(id)
@@ -39,6 +40,7 @@ import {
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
+                    onClick = {(event) => event.stopPropagation()}
                     onClose={handleClose}
                   >
                   <MenuItem onClick={editItem}>Edit</MenuItem>

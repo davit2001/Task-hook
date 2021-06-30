@@ -3,6 +3,7 @@ import {
     Card, 
     CardHeader,
     CardContent,
+    CardActionArea,
     Avatar,
     Typography,
     makeStyles,
@@ -11,6 +12,7 @@ import {
 import {format} from 'date-fns';
 import ProjectMenu from './ProjectMenu';
 import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles({
   Link: {
@@ -20,29 +22,33 @@ const useStyles = makeStyles({
 
 export default function ProjectItem({project}) {
   const classes = useStyles()
+  let history = useHistory()
+  const RedirectTask = () => {
+        history.push(`/${project.id}`)
+  }   
    return (
-    <Link to = {`/${project.id}`} className = {classes.Link}>
     <Card  elevation={1}>
-           <CardHeader
-                avatar = {
-                      <Avatar src = {project.image}/>
-                  }
-                  action = {
-                    <ProjectMenu id = {project.id}/>
-                  }
-                  title = {project.title}
-                  subheader = {format(new Date(), 'd MMM Y')}
-                >
-               </CardHeader>
-             
-               <CardContent>
-                   <Typography variant = "body2"  color = "textSecondary" >
-                          {project.message}
-                   </Typography>
-               </CardContent>
-       </Card>
-    </Link>
-      
-   
+    <CardActionArea 
+    onClick = {RedirectTask}
+    >
+         <CardHeader
+              avatar = {
+                  <Avatar src = {project.image}/>
+              }
+              action = {
+                <ProjectMenu id = {project.id}/>
+              }
+              title = {project.title}
+              subheader = {format(new Date(), 'd MMM Y')}
+            >
+           </CardHeader>
+
+           <CardContent>
+               <Typography variant = "body2"  color = "textSecondary" >
+                      {project.message}
+               </Typography>
+           </CardContent>
+    </CardActionArea>
+  </Card>
     )
 }

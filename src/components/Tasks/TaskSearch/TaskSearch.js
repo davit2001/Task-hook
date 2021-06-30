@@ -4,7 +4,7 @@ import {Grid} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import TaskSearchForm from './TaskSearchForm/TaskSearchForm';
 import TaskSearchItem from './TaskSearchItem/TaskSearchItem';
-import { searchTasksSelector } from '../../../reducer/taskReducer';
+import { searchTasksSelector } from '../../../reducer/tasks/tasksReducer'; 
 
 export default function TaskSearch() {
    const tasks =  useSelector(searchTasksSelector())

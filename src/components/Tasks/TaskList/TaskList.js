@@ -3,7 +3,7 @@ import ProjectItem from '../TaskItem/TaskItem'
 import Masonry from 'react-masonry-css'
 import { Container, Typography, makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import { projectTasksSelector } from '../../../reducer/taskReducer'
+import { projectTasksSelector } from '../../../reducer/tasks/tasksReducer' 
 
 const useStyles = makeStyles({
   container: {
