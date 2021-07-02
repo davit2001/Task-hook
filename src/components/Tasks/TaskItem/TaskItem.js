@@ -7,7 +7,7 @@ import {
   } from '@material-ui/core';
   
 import {format} from 'date-fns';
-import TaskMenu from './TaskMenu';
+import TaskMenu from '../hoc/TaskMenu';
 import { useStyles } from './styles';
 
 export default function ProjectItem({task}) {

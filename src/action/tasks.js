@@ -3,7 +3,7 @@ import {
     UPDATE_TASK,
     REMOVE_TASK,
     SEARCH_TASKS
-} from '../actionTypes/taskTypes'
+} from './type/taskTypes'
 
 export function fetchTaskAdd(task) {
     return {

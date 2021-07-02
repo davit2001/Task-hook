@@ -2,7 +2,7 @@ import {
     ADD_PROJECT,
     REMOVE_PROJECT,
     UPDATE_PROJECT
-} from '../actionTypes/projectTypes'
+} from './type/projectTypes'
 
 export  function  fetchProjectAdd (project) {
   return {

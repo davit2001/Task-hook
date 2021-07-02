@@ -10,8 +10,7 @@ import {
   } from '@material-ui/core';
 
 import {format} from 'date-fns';
-import ProjectMenu from './ProjectMenu';
-import {Link} from 'react-router-dom';
+import ProjectMenu from '../hoc/ProjectMenu';
 import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles({

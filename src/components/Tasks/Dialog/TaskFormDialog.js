@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   Button,
   TextField,
@@ -13,18 +13,17 @@ import {
   DialogTitle 
 } from '@material-ui/core'
 
-import { nanoid } from 'nanoid'
-import { fetchTaskAdd } from '../../../action/tasks';
-import { useDispatch } from 'react-redux';
+
 import { useStyles } from './styles';
 
 export default function FormDialog({
-  isOpenForm,
-  setOpenForm,
-  editId,
-  task, 
-  updateTask,
-  projectId
+    projectId,
+    tasks,
+    editId,
+    isOpenForm,
+    addTask, 
+    updateTask,
+    closeTaskForm
 }) {
   const classes = useStyles();
 
@@ -33,26 +32,13 @@ export default function FormDialog({
   const [assignee, setAssignee] = useState('')
   const [status, setStatus] = useState('in progress')
   const [isError, setError] = useState(false)
+  const task =  useMemo(() => tasks.find(task => task.id == editId), [editId])
 
-  const dispatch = useDispatch()
 
-const handleClose = () => {
-  setOpenForm(false)
-  };
 const statusChange = (e) => {
   setStatus(e.target.value)
 }
-  const addTask = () => {
-    let newTask = {
-      id: nanoid(),
-      projectId,
-      name,
-      description,
-      assignee,
-      status
-  }
-    dispatch(fetchTaskAdd(newTask))
-}
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -68,10 +54,16 @@ const statusChange = (e) => {
            }
           updateTask(data)
        } else {
-          addTask()    
+          addTask({
+            projectId,
+            name,
+            description,
+            assignee,
+            status
+          })    
        }
        setError(false)
-       setOpenForm(false)
+       closeTaskForm(false)
    } else {
        setError(true)
    }
@@ -91,7 +83,7 @@ useEffect(() => {
 
   return (
     <div>
-      <Dialog open={isOpenForm} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={isOpenForm} onClose={closeTaskForm} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
                  <Typography 
                      variant = "h4"
@@ -154,7 +146,7 @@ useEffect(() => {
         </DialogContent>
 
         <DialogActions>
-           <Button onClick = {handleClose} color = "primary">
+           <Button onClick = {closeTaskForm} color = "primary">
               Cancel
             </Button>
             <Button onClick = {handleSubmit} color = "primary" type = "submit">

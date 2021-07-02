@@ -1,20 +1,21 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function ProjectDialog({isOpenDialog, setOpenDialog, removeProject}) {
+export default function ProjectDialog({
+  removeId,
+  isOpenDialog,
+  removeTask,
+  closeProjectDialog
+}) {
 
- const handleClose = useCallback(() => {
-  setOpenDialog(false);
-  }, []);
-
-  return (
+ return (
     <div>
      <Dialog
         open={isOpenDialog}
-        onClose={handleClose}
+        onClose={closeProjectDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -23,10 +24,10 @@ export default function ProjectDialog({isOpenDialog, setOpenDialog, removeProjec
           </DialogTitle>
        
         <DialogActions>
-          <Button onClick ={handleClose} color = "primary">
+          <Button onClick ={closeProjectDialog} color = "primary">
             Cancel
           </Button>
-          <Button onClick ={removeProject} color = "primary" autoFocus>
+          <Button onClick ={() => removeTask(removeId)} color = "primary" autoFocus>
             Ok
           </Button>
         </DialogActions>

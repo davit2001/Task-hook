@@ -1,7 +1,7 @@
 import {
     REMOVE_PROJECT,
     UPDATE_PROJECT
-} from '../../actionTypes/projectTypes'
+} from '../../action/type/projectTypes'
 
 export const projectReducer = (state, action) => {
    switch(action.type) {

@@ -28,8 +28,7 @@ export default function ProjectList() {
    540: 1
  }
 
- const projects = useSelector((state) => state.projects)
-
+ const projects = useSelector((state) => state.projects.data)
  return (
     <Container>
       <Masonry

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect} from 'react'
+import { useDispatch } from 'react-redux'
 import {
   Grid, 
   Typography,
@@ -8,64 +8,35 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 
 import { useParams } from 'react-router-dom'
-import {fetchTaskUpdate, fetchTaskRemove} from '../../action/tasks'
+import { fetchToggleTaskForm } from '../../action/tasksUI'; 
 import TasksProjectInfo from './TasksProjectInfo/TasksProjectInfo';
-import TaskFormDialog from '../Tasks/Dialog/TaskFormDialog'
+import TaskFormDialog from './hoc/Dialog/FormDialog'
 import TaskList from '../Tasks/TaskList/TaskList'
-import TaskDialog from './Dialog/TaskDialog'
+import TaskDialog from './hoc/Dialog/TaskDialog'
 import TaskSearch from './TaskSearch/TaskSearch'
 import TaskNavigationList from './TaskNavigation/TaskNavigationList/TaskNavigationList'
 import { useStyles } from './styles'
-import { tasksSelector } from '../../reducer/tasks/tasksReducer';
 import { fetchTaskSearch } from '../../action/tasks';
 
 export const TaskContext = React.createContext('')
 
 export default function Tasks() {
-  const dispatch = useDispatch()
+  const classes = useStyles()
   const params = useParams()
   let projectId =  params.id; 
-
-   useEffect(() => {
-     dispatch(fetchTaskSearch(null))
-   }, [projectId])
   
-  const tasks = useSelector(tasksSelector())
+  useEffect(() => {
+    dispatch(fetchTaskSearch(null))
+  }, [projectId])
+  
+  
+  const dispatch = useDispatch()
 
-   const [editId, setEditId] = useState(null)
-   const [removeId, setRemoveId] = useState(null)
-   const [isOpenDialog, setOpenDialog] = useState(false)
-   const [isOpenForm, setOpenForm] = useState(false)
-
-   
-const closeProjectDialog = useCallback((id) => {
-    setRemoveId(id)
-    setOpenDialog(true)
-}, [])
-
-const removeProject = useCallback(() => {
-  setOpenDialog(false)
-  dispatch(fetchTaskRemove(removeId))
-  setRemoveId(null)
-}, [removeId])
-
-const updateTask = useCallback((data) => {
-   dispatch(fetchTaskUpdate(data))
-   setEditId('')
-}, [tasks])
-
-const editProject = useCallback((id) => {
-    setEditId(id)
-    setOpenForm(true)
-}, [tasks])
-
-  let task = useMemo(() => tasks.find(task => task.id == editId), [editId])
-  const classes = useStyles()
   return (
     <>
        <TasksProjectInfo projectId = {projectId}/>
 
-        <IconButton onClick = {() => setOpenForm(true)} className = {classes.iconButton}  >
+        <IconButton onClick = {() => dispatch(fetchToggleTaskForm(true))} className = {classes.iconButton}  >
              <AddIcon />
         </IconButton>
 
@@ -83,31 +54,15 @@ const editProject = useCallback((id) => {
                  <Typography variant = "h4" gutterBottom>
                     Task Details
                   </Typography>
-                  <TaskContext.Provider value = {{
-                           closeProjectDialog,
-                           editProject
-                    }}>
-                      <TaskList  projectId = {projectId}/>
-                   </TaskContext.Provider> 
-              </Grid>
+                  <TaskList  projectId = {projectId}/>
+               </Grid>
 
               <Grid item className={classes.item} >
                   <TaskSearch />
               </Grid>
 
-              <TaskDialog 
-                isOpenDialog = {isOpenDialog}
-                setOpenDialog = {setOpenDialog}
-                removeProject = {removeProject}
-             />
-              <TaskFormDialog 
-                 isOpenForm = {isOpenForm} 
-                 setOpenForm = {setOpenForm}
-                 projectId = {projectId}
-                 editId = {editId}
-                 updateTask = {updateTask}
-                 task = {task}
-             />
+              <TaskDialog />
+              <TaskFormDialog projectId = {projectId}/>
           </Grid>
         </>
     )

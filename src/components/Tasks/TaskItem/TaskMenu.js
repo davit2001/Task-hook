@@ -1,31 +1,28 @@
 import React, { useCallback, useState } from 'react'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { useContext } from 'react';
-import { TaskContext } from '../Tasks';
 import {
   Menu,
   MenuItem,
   IconButton
 } from '@material-ui/core'
 
-  export default function ProjectMenu({id}) {
-    const {closeProjectDialog, editProject} = useContext(TaskContext)
-    const [anchorEl, setAnchorEl] = useState(null);
+ export default function TaskMenu({closeTaskDialog, editTask, id}) {
+   const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleClick = useCallback((event) => {
+   const handleClick = (event) => {
       event.stopPropagation()
        setAnchorEl(event.currentTarget);
-    }, []);
+    };
  
   const editItem = useCallback(() => {
-     editProject(id)
+     editTask(id)
      setAnchorEl(null)   
   }, [])
 
-  const removeItem = useCallback(() => {
-    closeProjectDialog(id)
+  const removeItem = () => {
+    closeTaskDialog(id)
     setAnchorEl(null)
-  })
+  }
   const handleClose = () => {
     setAnchorEl(null);
   };

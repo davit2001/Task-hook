@@ -1,4 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
+import FileBase from 'react-file-base64'
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,34 +9,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {Typography} from '@material-ui/core'
 
-import FileBase from 'react-file-base64'
-import { nanoid } from 'nanoid'
-import { fetchProjectAdd } from '../../../action/projects';
-import { useDispatch} from 'react-redux';
-
-export default function FormDialog({isOpenForm, setOpenForm, editId, task, updateTask}) {
+export default  function FormDialog({
+    projects,
+    editId,
+    isOpenForm,
+    addProject, 
+    updateProject,
+    closeProjectForm
+  }) {
 
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const [image, setImage] = useState('https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png')
   const [isError, setError] = useState(false)
+  const task =  useMemo(() => projects.find(project => project.id == editId), [editId])
  
-const dispatch = useDispatch()
-
-const handleClose = () => {
-  setOpenForm(false)
-  };
-
-  const addTask = () => {
-    let newTask = {
-      id: nanoid(),
-      title, 
-      message, 
-      image
-  }
-    dispatch(fetchProjectAdd(newTask))
-}
-
   const handleSubmit = (e) => {
     e.preventDefault()
    if (title && message) {
@@ -45,12 +34,16 @@ const handleClose = () => {
              message,
              image
            }
-          updateTask(data)
+          updateProject(data)
        } else {
-          addTask()    
+           addProject({
+             title,
+             message,
+             image
+            })    
        }
        setError(false)
-       setOpenForm(false)
+       closeProjectForm()
    } else {
        setError(true)
    }
@@ -59,7 +52,6 @@ const handleClose = () => {
    setMessage('')
    setImage('https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png')
 }
-
 
 useEffect(() => {
   if (task?.id) {
@@ -71,10 +63,9 @@ useEffect(() => {
 
   return (
     <div>
-      
-      <Dialog open={isOpenForm} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={isOpenForm} onClose={closeProjectForm} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
-                 <Typography 
+                <Typography 
                      variant = "h4"
                      component="h2"
                      gutterBottom
@@ -82,7 +73,6 @@ useEffect(() => {
                      align = "center"
                   > 
                   {task?.id ? 'Edit Project' : 'Create Project'}
-                
                 </Typography>
         </DialogTitle>
         <form  onSubmit = {handleSubmit}>
@@ -114,12 +104,10 @@ useEffect(() => {
              <div>
                    <FileBase type="file" multiple={false} onDone = {({base64}) => setImage(base64)} />
              </div>
-         
-             
-        </DialogContent>
+         </DialogContent>
 
         <DialogActions>
-           <Button onClick = {handleClose} color = "primary">
+           <Button onClick = {closeProjectForm} color = "primary">
               Cancel
             </Button>
             <Button onClick = {handleSubmit} color = "primary" type = "submit">
