@@ -3,7 +3,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActionArea,
   Avatar,
   Typography,
   makeStyles,
@@ -14,9 +13,9 @@ import ProjectMenu from "../container/ProjectMenu";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
-  Link: {
-    textDecoration: "none",
-  },
+  root: {
+    cursor: "pointer"
+  }
 });
 
 export default function ProjectItem({ project }) {
@@ -26,21 +25,22 @@ export default function ProjectItem({ project }) {
     history.push(`/${project.id}`);
   };
   return (
-    <Card elevation={1}>
-      <CardActionArea onClick={RedirectTask}>
+    <Card 
+       elevation={1} 
+       onClick={RedirectTask}
+       className = {classes.root}
+    >
         <CardHeader
           avatar={<Avatar src={project.image} />}
           action={<ProjectMenu id={project.id} />}
           title={project.title}
           subheader={format(new Date(), "d MMM Y")}
         ></CardHeader>
-
         <CardContent>
           <Typography variant="body2" color="textSecondary">
             {project.message}
           </Typography>
         </CardContent>
-      </CardActionArea>
     </Card>
   );
 }
