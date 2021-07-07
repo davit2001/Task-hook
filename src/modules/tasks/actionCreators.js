@@ -1,7 +1,15 @@
-import {ADD_TASK, UPDATE_TASK, REMOVE_TASK, SEARCH_TASKS} from "./constants/taskTypes";
+import {
+    ADD_TASK, 
+    UPDATE_TASK, 
+    REMOVE_TASK, 
+    SEARCH_TASKS
+} from "./constants/taskTypes";
 
-export function fetchTaskAdd(task) {
-    return {type: ADD_TASK, payload: task};
+export function fetchTaskAdd(task,id) {
+    return {type: ADD_TASK, payload: {
+        task,
+        id
+    }};
 }
 
 export function fetchTaskUpdate(data) {
@@ -17,3 +25,4 @@ export function fetchTaskRemove(id) {
 export function fetchTaskSearch(name) {
     return {type: SEARCH_TASKS, payload: name};
 }
+

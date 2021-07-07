@@ -3,7 +3,7 @@ import {nanoid} from 'nanoid'
 import {connect} from 'react-redux'
 
 import {fetchTaskAdd, fetchTaskUpdate} from '../actionCreators'
-import {fetchToggleTaskForm, fetchEditTaskId} from '../UI/tasksUI';
+import {fetchToggleTaskForm, fetchEditTaskId, fetchTaskId} from '../UI/tasksUI';
 
 const mapStateToProps = (state, ownProps) => {
     return {tasks: state.tasks.tasks, editId: state.tasksUI.editId, isOpenForm: state.tasksUI.isOpenForm, projectId: ownProps.projectId}
@@ -15,24 +15,18 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(fetchTaskUpdate(data))
             dispatch(fetchEditTaskId(''))
         },
-        addTask: (
-            {
-                projectId,
-                name,
-                description,
-                assignee,
-                status
-            }
-        ) => dispatch(fetchTaskAdd({
-            id: nanoid(),
-            projectId,
-            name,
-            description,
-            assignee,
-            status
-        })),
-        closeTaskForm: () => {
-            dispatch(fetchToggleTaskForm(false))
+        addTask: (data, id) => {
+            dispatch(fetchTaskAdd({
+                id: nanoid(),
+                ...data
+            }, id))
+        },
+        closeTaskForm: (bool) => {
+            dispatch(fetchToggleTaskForm(bool))
+        },
+       
+        addTaskId: (id, bool = null) => {
+            dispatch(fetchTaskId(id, bool))
         }
     }
 }

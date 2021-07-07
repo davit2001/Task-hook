@@ -9,11 +9,11 @@ import {
     Select,
     Dialog,
     DialogActions,
-    DialogContent,
-    DialogTitle
+    DialogContent
 } from "@material-ui/core";
 
 import {useStyles} from "./styles";
+import { useSelector } from "react-redux";
 
 export default function FormDialog({
     projectId,
@@ -22,7 +22,9 @@ export default function FormDialog({
     isOpenForm,
     addTask,
     updateTask,
-    closeTaskForm
+    closeTaskForm,
+    addTaskChild,
+    addTaskId
 }) {
     const classes = useStyles();
 
@@ -36,7 +38,19 @@ export default function FormDialog({
     const statusChange = (e) => {
         setStatus(e.target.value);
     };
+    const taskId = useSelector(state => state.tasksUI.taskId)
 
+//   const   getNodeWithValue = (taskId) =>  {
+//     let queue = [...tasks];
+//      while (queue.length > 0) {
+//         const current = queue.shift();
+//         if (current.id === taskId) return current;
+//         for (let child of current.children) {
+//             queue.push(child)
+//         }
+//     }
+//     return null
+// }
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name && description && assignee) {
@@ -51,22 +65,27 @@ export default function FormDialog({
                 };
                 updateTask(data);
             } else {
-                addTask({
-                    projectId,
-                    name,
-                    description,
-                    assignee,
-                    status
-                });
-            }
+              
+                   addTask({
+                       projectId,
+                       name,
+                       description,
+                       assignee,
+                       status,
+                       children: []
+                   }, taskId);   
+               
+           }
             setError(false);
             closeTaskForm(false);
+            
         } else {
             setError(true);
         }
         setName("");
         setDescription("");
         setAssignee("")
+       addTaskId('')
     };
 
     useEffect(() => {
@@ -83,12 +102,10 @@ export default function FormDialog({
             <Dialog open={isOpenForm}
                 onClose={closeTaskForm}
                 aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">
                     <Typography variant="h4" component="h2" gutterBottom color="textSecondary" align="center">
                         {
                         task ?. id ? "Edit Task" : "Create Task"
                     } </Typography>
-                </DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
                         <TextField onChange={
@@ -120,12 +137,13 @@ export default function FormDialog({
                             helperText={
                                 isError && "Fields must be required"
                             }/>
-                        <TextField onChange={
-                                (e) => setAssignee(e.target.value)
+                        <TextField 
+                           required
+                            onChange={
+                              (e) => setAssignee(e.target.value)
                             }
                             value={assignee}
                             label="Assignee"
-                            required
                             variant="outlined"
                             fullWidth
                             margin="normal"

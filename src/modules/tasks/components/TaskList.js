@@ -33,6 +33,11 @@ export default function ProjectList({projectId}) {
                 classes.container
             }
             id="container">
+                 {/* <div className = "menu"> {arr.length !== 0  && arr.map((item, index) => { 
+               return (<li key = {index}><MenuItem props = {item} addNode = {addNestedNode} /></li>)
+              }
+          )} </div> */}
+
             {
             tasks.length ? (
                 <Masonry breakpointCols={breakpoints}
@@ -40,15 +45,7 @@ export default function ProjectList({projectId}) {
                     columnClassName="my-masonry-grid_column">
                     {
                     tasks && tasks.map((task) => (
-                        <Grid item
-                            id={
-                                task.id
-                            }
-                            key={
-                                task.id
-                            }
-                            className
-                            ={classes.item}>
+                        <Grid item id={task.id} key={task.id} className={classes.item}>
                             <TaskItem task ={task}/>
                         </Grid>
                     ))

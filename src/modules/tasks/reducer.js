@@ -1,4 +1,9 @@
-import {ADD_TASK, UPDATE_TASK, REMOVE_TASK, SEARCH_TASKS} from "./constants/taskTypes";
+import {
+    ADD_TASK,
+    UPDATE_TASK,
+    REMOVE_TASK,
+    SEARCH_TASKS
+} from "./constants/taskTypes";
 
 import {taskReducer} from "./reducer.spec";
 
@@ -10,11 +15,33 @@ const initialState = {
 export const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TASK:
+            const getTask = (taskId) => {
+                console.log(taskId)
+                let queue = [...state.tasks];
+                while (queue.length > 0) {
+                    const current = queue.shift();
+                    if (current.id === taskId) 
+                        return current;
+                    
+                    for (let child of current.children) {
+                        queue.push(child)
+                    }
+                }
+                return null
+            }
+
+            if (action.payload.id) {
+               let parentTask = getTask((action.payload.id))
+                if (parentTask) {
+                    parentTask.children.push(action.payload.task)
+                }
+                return state
+            }
             return {
                 ...state,
                 tasks: [
                     ...state.tasks,
-                    action.payload
+                    action.payload.task
                 ]
             };
         case UPDATE_TASK:
