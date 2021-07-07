@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => {
         addTask: (data, id) => {
             dispatch(fetchTaskAdd({
                 id: nanoid(),
+                parentId: id,
                 ...data
             }, id))
         },

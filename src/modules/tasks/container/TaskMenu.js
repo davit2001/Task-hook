@@ -3,12 +3,15 @@ import {fetchCloseTaskDialog, fetchEditTaskId, fetchTaskId} from '../UI/tasksUI'
 import TaskMenu from '../components/TaskMenu'
 
 const mapStateToProps = (state, ownProps) => {
-    return {id: ownProps.id}
+    return {
+        id: ownProps.id,
+        parentId: ownProps.parentId
+    }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        closeTaskDialog: (id) => {
-            dispatch(fetchCloseTaskDialog(id, true))
+        closeTaskDialog: (id, parentId) => {
+            dispatch(fetchCloseTaskDialog(id, parentId, true))
         },
         editTask: (id) => {
             dispatch(fetchEditTaskId(id))

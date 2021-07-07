@@ -1,9 +1,4 @@
-import {
-    ADD_TASK,
-    UPDATE_TASK,
-    REMOVE_TASK,
-    SEARCH_TASKS
-} from "./constants/taskTypes";
+import {ADD_TASK, UPDATE_TASK, REMOVE_TASK, SEARCH_TASKS} from "./constants/taskTypes";
 
 import {taskReducer} from "./reducer.spec";
 
@@ -13,25 +8,27 @@ const initialState = {
 };
 
 export const tasksReducer = (state = initialState, action) => {
+    const getTask = (taskId) => {
+        let queue = [...state.tasks];
+        while (queue.length > 0) {
+            const current = queue.shift();
+            if (current.id === taskId) 
+                return current;
+            
+
+            for (let child of current.children) {
+                queue.push(child)
+            }
+        }
+        return null
+    }
+
     switch (action.type) {
         case ADD_TASK:
-            const getTask = (taskId) => {
-                console.log(taskId)
-                let queue = [...state.tasks];
-                while (queue.length > 0) {
-                    const current = queue.shift();
-                    if (current.id === taskId) 
-                        return current;
-                    
-                    for (let child of current.children) {
-                        queue.push(child)
-                    }
-                }
-                return null
-            }
+
 
             if (action.payload.id) {
-               let parentTask = getTask((action.payload.id))
+                let parentTask = getTask((action.payload.id))
                 if (parentTask) {
                     parentTask.children.push(action.payload.task)
                 }
@@ -52,6 +49,17 @@ export const tasksReducer = (state = initialState, action) => {
                 })
             };
         case REMOVE_TASK:
+            let {id, parentId} = action.payload;
+            if (parentId) {
+                let parentTask = getTask(parentId)
+                for (let i = 0; i < parentTask.children.length; i++) {
+                    if (parentTask.children[i].id === id) {
+                        parentTask.children.splice(i, 1)
+                        break;
+                    }
+                }
+                return state
+            }
             return {
                 ...state,
                 tasks: state.tasks.filter((task) => task.id !== action.payload.id)

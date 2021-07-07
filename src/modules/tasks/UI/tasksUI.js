@@ -6,11 +6,12 @@ import {
     ADD_TASK_ID
 } from "../constants/taskTypes";
 
-export function fetchCloseTaskDialog(id = null, bool) {
+export function fetchCloseTaskDialog(id = null, parentId, bool) {
     return {
         type: CLOSE_TASK_DIALOG,
         payload: {
             id,
+            parentId,
             isOpenDialog: bool
         }
     };

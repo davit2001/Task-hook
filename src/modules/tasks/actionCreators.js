@@ -16,9 +16,10 @@ export function fetchTaskUpdate(data) {
     return {type: UPDATE_TASK, payload: data};
 }
 
-export function fetchTaskRemove(id) {
+export function fetchTaskRemove(id, parentId) {
     return {type: REMOVE_TASK, payload: {
-            id
+            id,
+            parentId
         }};
 }
 

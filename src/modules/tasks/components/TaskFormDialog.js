@@ -23,7 +23,6 @@ export default function FormDialog({
     addTask,
     updateTask,
     closeTaskForm,
-    addTaskChild,
     addTaskId
 }) {
     const classes = useStyles();

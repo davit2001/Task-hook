@@ -13,6 +13,7 @@ const initialState = {
     editId: "",
     removeId: "",
     taskId: "",
+    parentId: "",
     activeClass: ""
 };
 
@@ -28,6 +29,7 @@ export const tasksUIReducer = (state = initialState, action) => {
             return {
                 ...state,
                 removeId: action.payload ?. id,
+                parentId: action.payload?.parentId,
                 isOpenDialog: action.payload.isOpenDialog || false
             };
 

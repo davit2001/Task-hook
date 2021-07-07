@@ -4,7 +4,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-export default function ProjectDialog({removeId, isOpenDialog, removeTask, closeProjectDialog}) {
+export default function ProjectDialog({parentId, removeId, isOpenDialog, removeTask, closeProjectDialog}) {
     return (
         <div>
             <Dialog open={isOpenDialog}
@@ -20,7 +20,7 @@ export default function ProjectDialog({removeId, isOpenDialog, removeTask, close
                         Cancel
                     </Button>
                     <Button onClick={
-                            () => removeTask(removeId)
+                            () => removeTask(removeId, parentId)
                         }
                         color="primary"
                         autoFocus>

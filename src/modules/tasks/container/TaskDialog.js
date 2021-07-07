@@ -5,13 +5,17 @@ import {fetchCloseTaskDialog} from "../UI/tasksUI";
 import TaskDialog from "../components/TaskDialog";
 
 const mapStateToProps = (state) => {
-    return {removeId: state.tasksUI.removeId, isOpenDialog: state.tasksUI.isOpenDialog}
+    return {
+         parentId: state.tasksUI.parentId,
+         removeId: state.tasksUI.removeId,
+         isOpenDialog: state.tasksUI.isOpenDialog
+        }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        removeTask: (removeId) => {
-            dispatch(fetchTaskRemove(removeId))
+        removeTask: (removeId, parentId) => {
+            dispatch(fetchTaskRemove(removeId, parentId))
             dispatch(fetchCloseTaskDialog(null, false))
         },
         closeProjectDialog: () => {
