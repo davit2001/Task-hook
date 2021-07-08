@@ -12,8 +12,14 @@ export function fetchTaskAdd(task,id) {
     }};
 }
 
-export function fetchTaskUpdate(data) {
-    return {type: UPDATE_TASK, payload: data};
+export function fetchTaskUpdate(data, parentId) {
+    return {
+        type: UPDATE_TASK,
+         payload: {
+             parentId,
+             ...data
+         }
+    };
 }
 
 export function fetchTaskRemove(id, parentId) {

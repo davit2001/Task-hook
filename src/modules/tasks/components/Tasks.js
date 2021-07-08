@@ -26,37 +26,35 @@ export default function Tasks() {
 
     const dispatch = useDispatch()
 
-    return (
-        <>
-            <TasksProjectInfo projectId={projectId}/>
-            <Grid container direction="row" alignItems="stretch" wrap="nowrap">
-                <Grid item
-                    className={
-                        classes.item
-                }>
-                    <TaskNavigationList projectId={projectId}/>
-                </Grid>
-
-                <Grid item
-                    className={
-                        classes.item
-                }>
-                    <Typography variant="h4" gutterBottom>
-                        Task Details
-                    </Typography>
-                    <TaskList projectId={projectId}/>
-                </Grid>
-
-                <Grid item
-                    className={
-                        classes.item
-                }>
-                    <TaskSearch/>
-                </Grid>
-
-                <TaskDialog/>
-                <TaskFormDialog projectId={projectId}/>
+    return (<>
+        <TasksProjectInfo projectId={projectId}/>
+        <Grid container direction="row" alignItems="stretch" wrap="nowrap">
+            <Grid item
+                className={
+                    classes.item
+            }>
+                <TaskNavigationList projectId={projectId}/>
             </Grid>
-        </>
-    )
+
+            <Grid item
+                className={
+                    classes.item
+            }>
+                <Typography variant="h4" gutterBottom>
+                    Task Details
+                </Typography>
+                <TaskList projectId={projectId}/>
+            </Grid>
+
+            <Grid item
+                className={
+                    classes.item
+            }>
+                <TaskSearch/>
+            </Grid>
+
+            <TaskDialog/>
+            <TaskFormDialog projectId={projectId}/>
+        </Grid>
+    </>)
 }

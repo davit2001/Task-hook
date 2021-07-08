@@ -6,13 +6,19 @@ import {fetchTaskAdd, fetchTaskUpdate} from '../actionCreators'
 import {fetchToggleTaskForm, fetchEditTaskId, fetchTaskId} from '../UI/tasksUI';
 
 const mapStateToProps = (state, ownProps) => {
-    return {tasks: state.tasks.tasks, editId: state.tasksUI.editId, isOpenForm: state.tasksUI.isOpenForm, projectId: ownProps.projectId}
+    return {
+        parentId: state.tasksUI.parentId,
+        tasks: state.tasks.tasks, 
+        editId: state.tasksUI.editId, 
+        isOpenForm: state.tasksUI.isOpenForm, 
+        projectId: ownProps.projectId
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateTask: (data) => {
-            dispatch(fetchTaskUpdate(data))
+        updateTask: (data, parentId) => {
+            dispatch(fetchTaskUpdate(data, parentId))
             dispatch(fetchEditTaskId(''))
         },
         addTask: (data, id) => {

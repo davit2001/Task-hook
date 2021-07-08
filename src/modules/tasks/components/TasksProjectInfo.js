@@ -13,23 +13,17 @@ const useStyles = makeStyles({
 export default function TasksProjectInfo({projectId}) {
     const classes = useStyles();
     let projectTasks = useSelector(tasksProjectSelector(projectId));
-    return (
-        <>
-            <Box display="flex" justifyContent="center"
-                m={1}
-                p={1}>
-                {
-                projectTasks && (
-                    <Typography className={
-                            classes.heading
-                        }
-                        variant="h3"
-                        gutterBottom>
-                        {
-                        projectTasks.message
-                    } </Typography>
-                )
-            } </Box>
-        </>
-    );
+    return (<>
+        <Box display="flex" justifyContent="center"
+            m={1}
+            p={1}> {
+            projectTasks && (<Typography className={
+                    classes.heading
+                }
+                variant="h3"
+                gutterBottom> {
+                projectTasks.message
+            } </Typography>)
+        } </Box>
+    </>);
 }

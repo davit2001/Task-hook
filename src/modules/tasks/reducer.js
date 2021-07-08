@@ -1,6 +1,5 @@
 import {ADD_TASK, UPDATE_TASK, REMOVE_TASK, SEARCH_TASKS} from "./constants/taskTypes";
 
-import {taskReducer} from "./reducer.spec";
 
 const initialState = {
     tasks: [],
@@ -16,6 +15,7 @@ export const tasksReducer = (state = initialState, action) => {
                 return current;
             
 
+
             for (let child of current.children) {
                 queue.push(child)
             }
@@ -25,8 +25,6 @@ export const tasksReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD_TASK:
-
-
             if (action.payload.id) {
                 let parentTask = getTask((action.payload.id))
                 if (parentTask) {
@@ -42,10 +40,34 @@ export const tasksReducer = (state = initialState, action) => {
                 ]
             };
         case UPDATE_TASK:
+            let {
+                ...data
+            } = action.payload;
+            let {id: Id, parentId: parentTaskId} = data
+            if (parentTaskId) {
+                let parentTask = getTask(parentTaskId);
+                for (let i = 0; i < parentTask.children.length; i++) {
+                    if (parentTask.children[i].id === Id) {
+                        parentTask.children[i] = {
+                            ...data,
+                            parentId: parentTask.children[i].parentId,
+                            children: [... parentTask.children[i].children]
+                        }
+                        break;
+                    }
+                }
+                return state
+            }
             return {
                 ...state,
                 tasks: state.tasks.map((task) => {
-                    return taskReducer(task, action);
+                    if (task.id !== Id) 
+                        return task
+
+                    return {
+                        ...data,
+                        children: [...task.children]
+                    }
                 })
             };
         case REMOVE_TASK:
@@ -75,7 +97,5 @@ export const tasksReducer = (state = initialState, action) => {
 };
 
 export const tasksSelector = () => (state) => state.tasks.tasks;
-
 export const projectTasksSelector = (projectId) => (state) => state.tasks.tasks.filter((task) => task.projectId === projectId);
-
 export const searchTasksSelector = () => (state) => state.tasks.tasks.filter((task) => task.name.includes(state.tasks.searchKeyword));

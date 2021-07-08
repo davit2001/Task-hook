@@ -1,8 +1,8 @@
 import {
-    CLOSE_TASK_DIALOG, 
-    EDIT_TASK_ID, 
-    TOGGLE_TASK_FORM, 
-    ACTIVE_CLASS, 
+    CLOSE_TASK_DIALOG,
+    EDIT_TASK_ID,
+    TOGGLE_TASK_FORM,
+    ACTIVE_CLASS,
     ADD_TASK_ID
 } from "../constants/taskTypes";
 
@@ -17,10 +17,14 @@ export function fetchCloseTaskDialog(id = null, parentId, bool) {
     };
 }
 
-export function fetchEditTaskId(id) {
-    return {type: EDIT_TASK_ID, payload: {
-            id
-        }};
+export function fetchEditTaskId(id, parentId) {
+    return {
+        type: EDIT_TASK_ID,
+        payload: {
+            id,
+            parentId
+        }
+    };
 }
 
 export function fetchToggleTaskForm(bool) {
@@ -36,10 +40,10 @@ export function fetchActiveClass(id) {
 
 export function fetchTaskId(id, bool) {
     return {
-        type: ADD_TASK_ID, 
+        type: ADD_TASK_ID,
         payload: {
-        id,
-        isOpenForm: bool
-      }
-   }
- }
+            id,
+            isOpenForm: bool
+        }
+    }
+}

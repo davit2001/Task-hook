@@ -13,8 +13,8 @@ const mapDispatchToProps = (dispatch) => {
         closeTaskDialog: (id, parentId) => {
             dispatch(fetchCloseTaskDialog(id, parentId, true))
         },
-        editTask: (id) => {
-            dispatch(fetchEditTaskId(id))
+        editTask: (id, parentId) => {
+            dispatch(fetchEditTaskId(id, parentId))
         },
          addTaskId: (id, bool) => {
             dispatch(fetchTaskId(id, bool))

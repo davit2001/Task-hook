@@ -28,31 +28,25 @@ export default function ProjectList({projectId}) {
         1165: 1
     };
 
-    return (
-        <Container className={
-                classes.container
-            }
-            id="container">
-                 {/* <div className = "menu"> {arr.length !== 0  && arr.map((item, index) => { 
-               return (<li key = {index}><MenuItem props = {item} addNode = {addNestedNode} /></li>)
-              }
-          )} </div> */}
-
-            {
-            tasks.length ? (
-                <Masonry breakpointCols={breakpoints}
-                    className="my-masonry-grid"
-                    columnClassName="my-masonry-grid_column">
-                    {
-                    tasks && tasks.map((task) => (
-                        <Grid item id={task.id} key={task.id} className={classes.item}>
-                            <TaskItem task ={task}/>
-                        </Grid>
-                    ))
-                } </Masonry>
-            ) : (
-                <Typography>Task does not exist</Typography>
-            )
-        } </Container>
-    );
+    return (<Container className={
+            classes.container
+        }
+        id="container"> {
+        tasks.length ? (<Masonry breakpointCols={breakpoints}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"> {
+            tasks && tasks.map((task) => (<Grid item
+                id={
+                    task.id
+                }
+                key={
+                    task.id
+                }
+                className={
+                    classes.item
+            }>
+                <TaskItem task ={task}/>
+            </Grid>))
+        } </Masonry>) : (<Typography>Task does not exist</Typography>)
+    } </Container>);
 }

@@ -36,6 +36,7 @@ export const tasksUIReducer = (state = initialState, action) => {
         case EDIT_TASK_ID:
             return {
                 ...state,
+                parentId: action.payload.parentId,
                 editId: action.payload.id,
                 isOpenForm: true
             };
@@ -51,7 +52,7 @@ export const tasksUIReducer = (state = initialState, action) => {
                     taskId:  action.payload.id,
                     isOpenForm: action.payload.isOpenForm
                 }
-            }
+             }
 
             return {
                 ...state, 

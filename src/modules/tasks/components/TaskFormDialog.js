@@ -15,7 +15,7 @@ import {
 import {useStyles} from "./styles";
 import { useSelector } from "react-redux";
 
-export default function FormDialog({
+export default function TaskFormDialog({
     projectId,
     tasks,
     editId,
@@ -23,46 +23,50 @@ export default function FormDialog({
     addTask,
     updateTask,
     closeTaskForm,
-    addTaskId
+    addTaskId,
+    parentId
 }) {
     const classes = useStyles();
+    const getTask = (taskId) => {
+        let queue = [...tasks];
+        while (queue.length > 0) {
+            const current = queue.shift();
+            if (current.id === taskId) 
+                return current;
+            
+           for (let child of current.children) {
+                queue.push(child)
+            }
+        }
+        return null
+    }
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [assignee, setAssignee] = useState("");
     const [status, setStatus] = useState("in progress");
     const [isError, setError] = useState(false);
-    const task = useMemo(() => tasks.find((task) => task.id == editId), [editId]);
-
+    let task = useMemo(() => tasks.find((task) => task.id == editId), [editId]) || getTask(editId)
     const statusChange = (e) => {
         setStatus(e.target.value);
     };
     const taskId = useSelector(state => state.tasksUI.taskId)
 
-//   const   getNodeWithValue = (taskId) =>  {
-//     let queue = [...tasks];
-//      while (queue.length > 0) {
-//         const current = queue.shift();
-//         if (current.id === taskId) return current;
-//         for (let child of current.children) {
-//             queue.push(child)
-//         }
-//     }
-//     return null
-// }
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name && description && assignee) {
             if (editId) {
                 let data = {
                     id: editId,
+                    parentId,
                     projectId,
                     name,
                     description,
                     assignee,
-                    status
+                    status,
+                    children: []
                 };
-                updateTask(data);
+                updateTask(data, parentId);
             } else {
               
                    addTask({
@@ -99,7 +103,7 @@ export default function FormDialog({
     return (
         <div>
             <Dialog open={isOpenForm}
-                onClose={closeTaskForm}
+                onClose={() => closeTaskForm(false)}
                 aria-labelledby="form-dialog-title">
                     <Typography variant="h4" component="h2" gutterBottom color="textSecondary" align="center">
                         {
@@ -165,7 +169,7 @@ export default function FormDialog({
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={closeTaskForm}
+                    <Button onClick={() => closeTaskForm(false)}
                         color="primary">
                         Cancel
                     </Button>
@@ -173,7 +177,7 @@ export default function FormDialog({
                         color="primary"
                         type="submit">
                         {
-                        task ?. id ? "Update" : "Add"
+                        task?. id ? "Update" : "Add"
                     } </Button>
                 </DialogActions>
             </Dialog>
