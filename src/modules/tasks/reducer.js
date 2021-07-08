@@ -13,10 +13,8 @@ export const tasksReducer = (state = initialState, action) => {
             const current = queue.shift();
             if (current.id === taskId) 
                 return current;
-            
 
-
-            for (let child of current.children) {
+             for (let child of current.children) {
                 queue.push(child)
             }
         }
@@ -96,6 +94,33 @@ export const tasksReducer = (state = initialState, action) => {
     }
 };
 
-export const tasksSelector = () => (state) => state.tasks.tasks;
+
+
+export const taskSelector = (taskId) =>  (state) => {
+    let queue = [...state.tasks.tasks];
+    while (queue.length > 0) {
+        const current = queue.shift();
+        if (current.id === taskId) 
+            return current;
+        
+       for (let child of current.children) {
+            queue.push(child)
+        }
+    }
+    return null
+}
+
 export const projectTasksSelector = (projectId) => (state) => state.tasks.tasks.filter((task) => task.projectId === projectId);
-export const searchTasksSelector = () => (state) => state.tasks.tasks.filter((task) => task.name.includes(state.tasks.searchKeyword));
+export const searchTasksSelector = () => (state)  => {
+    let queue = [...state.tasks.tasks];
+    let tasks = []
+    while (queue.length > 0) {
+        const current = queue.shift();
+        if (current.name.includes(state.tasks.searchKeyword)) 
+            tasks.push(current)
+          for (let child of current.children) {
+            queue.push(child)
+        }
+    }
+    return tasks
+}

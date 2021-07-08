@@ -28,9 +28,10 @@ export default function TaskItem({task}) {
                 id={
                     task.id
             }>
-                <CardHeader action= {
-                                         <TaskMenu id={task.id} parentId = {task.parentId} />
-                                      }
+                <CardHeader 
+                action= {
+                    <TaskMenu id={task.id} parentId = {task.parentId} />
+                   }
                     title={
                         task.name
                     }

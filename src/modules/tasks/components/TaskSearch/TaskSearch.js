@@ -28,7 +28,7 @@ export default function TaskSearch() {
             }>
                 <Grid item>
                     {
-                    tasks.length !== 0 && tasks.map((task) => <TaskSearchItem task={task}/>)
+                    tasks.length !== 0 && tasks.map((task) => <TaskSearchItem key = {task.id} task={task}/>)
                 } </Grid>
             </Container>
         </Grid>

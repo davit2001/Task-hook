@@ -1,4 +1,4 @@
-import FormDialog from "../components/TaskFormDialog"
+import FormDialog from "../components/TaskFormDialog/TaskFormDialog"
 import {nanoid} from 'nanoid'
 import {connect} from 'react-redux'
 
