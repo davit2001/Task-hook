@@ -32,10 +32,12 @@ export default function ProjectList({projectId}) {
             classes.container
         }
         id="container"> {
-        tasks.length ? (<Masonry breakpointCols={breakpoints}
+        tasks.length ? (
+        <Masonry breakpointCols={breakpoints}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"> {
-            tasks && tasks.map((task) => (<Grid item
+            tasks && tasks.map((task) => (
+            <Grid item
                 id={
                     task.id
                 }

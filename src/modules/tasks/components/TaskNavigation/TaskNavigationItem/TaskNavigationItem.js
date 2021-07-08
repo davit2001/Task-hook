@@ -1,34 +1,31 @@
-import React, {useEffect} from "react";
-import {useStyles} from "./styles";
+import React from "react";
 import {Link} from 'react-scroll'
-import {fetchActiveClass} from "../../../UI/tasksUI";
-import {useDispatch, useSelector} from "react-redux";
-import {Typography} from "@material-ui/core";
+import TreeItem from '@material-ui/lab/TreeItem';
 
 export default function TaskNavigationItem({task}) {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchActiveClass(''))
-    }, [])
-
-    const active = useSelector(state => state.tasksUI.activeClass)
-
-    const handleChange = (id) => {
-        dispatch(fetchActiveClass(id))
-    }
-
-    return (
-        <Link className= {[classes.root, task.id == active ? classes.active : null].join(' ')} activeClass="active" onClick= {() => handleChange(task.id)}
+    const renderTree = (task) => (
+        <Link  
+           activeClass="active" 
             to={
                 task.id
             }
+            key={task.id} 
             smooth={true}
             duration={250}
-            containerId="container">
-            <Typography> {
-                task.name
-            } </Typography>
+            containerId="container"
+        >
+          <TreeItem 
+              key={task.id} 
+              nodeId={task.id} 
+              label={task.name} 
+           >
+             { task.children && task.children.map((task) => renderTree(task))}
+          </TreeItem>
         </Link>
+      );
+    return (
+        <>
+          {renderTree(task)}
+        </>
     );
 }
