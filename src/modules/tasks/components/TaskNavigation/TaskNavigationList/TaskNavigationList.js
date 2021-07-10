@@ -26,11 +26,11 @@ export default function TaskNavigationList({projectId}) {
     const [expanded, setExpanded] = useState([]);
     const [selected, setSelected] = useState([]);
 
-    const handleToggle = (nodeIds) => {
+    const handleToggle = (event, nodeIds) => {
         setExpanded(nodeIds);
     };
 
-    const handleSelect = (nodeIds) => {
+    const handleSelect = (event, nodeIds) => {
         setSelected(nodeIds);
     };
     return (<Container>
@@ -48,10 +48,7 @@ export default function TaskNavigationList({projectId}) {
                 }
                 defaultCollapseIcon={<ExpandMoreIcon/>}
                 defaultExpandIcon={<ChevronRightIcon/>}
-                expanded={expanded}
-                selected={selected}
-                onNodeToggle={handleToggle}
-                onNodeSelect={handleSelect}> {
+                > {
                 tasks.length ? (tasks.map((task) => <TaskNavigationItem key={
                         task.id
                     }

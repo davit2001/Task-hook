@@ -5,8 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import {Typography} from "@material-ui/core";
+import Field from '../../../components/Field'
 
 export default function FormDialog({
     projects,
@@ -20,7 +20,7 @@ export default function FormDialog({
     const [message, setMessage] = useState("");
     const [image, setImage] = useState("https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png");
     const [isError, setError] = useState(false);
-    const task = useMemo(() => projects.find((project) => project.id == editId), [editId]);
+    const task = useMemo(() => projects.find((project) => project.id === editId), [editId]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -60,37 +60,30 @@ export default function FormDialog({
             <Dialog open={isOpenForm}
                 onClose={closeProjectForm}
                 aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">
                     <Typography variant="h4" component="h2" gutterBottom color="textSecondary" align="center">
                         {
                         task ?. id ? "Edit Project" : "Create Project"
                     } </Typography>
-                </DialogTitle>
                 <form onSubmit={handleSubmit}>
                     <DialogContent>
-                        <TextField onChange={
+                        <Field 
+                           handleChange={
                                 (e) => setTitle(e.target.value)
                             }
                             value={title}
                             label="Title"
-                            variant="outlined"
-                            color="primary"
-                            fullWidth
-                            margin="normal"
                             error={isError}
                             helperText={
                                 isError && "Fields must be required"
                             }/>
-                        <TextField onChange={
+                        <Field 
+                           handleChange={
                                 (e) => setMessage(e.target.value)
                             }
                             value={message}
                             label="Summary"
-                            variant="outlined"
-                            fullWidth
                             multiline
-                            rowsMax={4}
-                            margin="normal"
+                            maxRows={4}
                             error={isError}
                             helperText={
                                 isError && "Fields must be required"

@@ -3,6 +3,10 @@
   padding-left: 30px; /* gutter size */
   background-clip: padding-box;
 }
+.MuiTreeItem-root.Mui-selected > .MuiTreeItem-content .MuiTreeItem-label {
+  background: #2196f3;
+  color: white
+}
 
 
 body {
@@ -36,3 +40,4 @@ code {
 .my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
    margin-bottom: 30px;
 }
+

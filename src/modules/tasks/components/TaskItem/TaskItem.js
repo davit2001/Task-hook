@@ -20,7 +20,7 @@ export default function TaskItem({task}) {
     return (
         <>
             <Card elevation={
-                    task.id == active ? 8 : 1
+                    task.id === active ? 8 : 1
                 }
                 className={
                     classes.item
