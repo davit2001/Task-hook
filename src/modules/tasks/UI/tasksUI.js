@@ -3,7 +3,8 @@ import {
     EDIT_TASK_ID,
     TOGGLE_TASK_FORM,
     ACTIVE_CLASS,
-    ADD_TASK_ID
+    ADD_TASK_ID,
+    TOGGLE_TASK_DIALOG
 } from "../constants/taskTypes";
 
 export function fetchCloseTaskDialog(id = null, parentId, bool) {
@@ -47,3 +48,14 @@ export function fetchTaskId(id, bool) {
         }
     }
 }
+
+export function fetchToggleTaskDialog(bool, id) {
+    console.log('click', bool)
+    return {
+        type: TOGGLE_TASK_DIALOG,
+        payload: {
+            bool,
+            id
+        }
+    }
+ }

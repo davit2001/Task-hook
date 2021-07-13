@@ -43,6 +43,7 @@ export default function TaskNavigationItem({task}) {
             to = {task.id }
             key={task.id} 
             smooth={true}
+            spy={true}
             duration={250}
             containerId="container"
         >

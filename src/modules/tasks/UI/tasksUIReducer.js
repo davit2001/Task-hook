@@ -1,15 +1,16 @@
-import {StaticRouter} from "react-router-dom";
 import {
-    CLOSE_TASK_DIALOG, 
-    EDIT_TASK_ID, 
-    TOGGLE_TASK_FORM, 
+    CLOSE_TASK_DIALOG,
+    EDIT_TASK_ID,
+    TOGGLE_TASK_FORM,
     ACTIVE_CLASS,
-    ADD_TASK_ID
+    ADD_TASK_ID,
+    TOGGLE_TASK_DIALOG
 } from "../constants/taskTypes";
 
 const initialState = {
     isOpenDialog: false,
     isOpenForm: false,
+    isOpenTaskDialog: false,
     editId: "",
     removeId: "",
     taskId: "",
@@ -29,7 +30,7 @@ export const tasksUIReducer = (state = initialState, action) => {
             return {
                 ...state,
                 removeId: action.payload ?. id,
-                parentId: action.payload?.parentId,
+                parentId: action.payload ?. parentId,
                 isOpenDialog: action.payload.isOpenDialog || false
             };
 
@@ -49,15 +50,30 @@ export const tasksUIReducer = (state = initialState, action) => {
             if (action.payload.isOpenForm) {
                 return {
                     ...state,
-                    taskId:  action.payload.id,
+                    taskId: action.payload.id,
                     isOpenForm: action.payload.isOpenForm
                 }
-             }
+            }
 
             return {
+                ...state,
+                taskId: action.payload.id
+            }
+        case TOGGLE_TASK_DIALOG:
+            console.log('sdfsd', action.payload)
+            let {bool, id} = action.payload
+            if (id) {
+                return {
+                    ...state,
+                    isOpenTaskDialog: bool,
+                    taskId: id
+                }
+            }
+            return {
                 ...state, 
-                taskId: action.payload.id,
-            }    
+                isOpenTaskDialog: bool,
+                taskId: ''
+            }
         default:
             return state;
     }

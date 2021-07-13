@@ -1,4 +1,10 @@
-import {ADD_TASK, UPDATE_TASK, REMOVE_TASK, SEARCH_TASKS} from "./constants/taskTypes";
+import {
+    ADD_TASK,
+    UPDATE_TASK,
+    REMOVE_TASK,
+    SEARCH_TASKS,
+    UPDATE_TASKS
+} from "./constants/taskTypes";
 
 
 const initialState = {
@@ -13,8 +19,9 @@ export const tasksReducer = (state = initialState, action) => {
             const current = queue.shift();
             if (current.id === taskId) 
                 return current;
+            
 
-             for (let child of current.children) {
+            for (let child of current.children) {
                 queue.push(child)
             }
         }
@@ -62,6 +69,8 @@ export const tasksReducer = (state = initialState, action) => {
                     if (task.id !== Id) 
                         return task
 
+                    
+
                     return {
                         ...data,
                         children: [...task.children]
@@ -89,21 +98,27 @@ export const tasksReducer = (state = initialState, action) => {
                 ...state,
                 searchKeyword: action.payload
             };
+        case UPDATE_TASKS:
+            return {
+                ...state,
+                tasks: action.payload
+            }
         default:
             return state;
     }
+
 };
 
 
-
-export const taskSelector = (taskId) =>  (state) => {
+export const taskSelector = (taskId) => (state) => {
     let queue = [...state.tasks.tasks];
     while (queue.length > 0) {
         const current = queue.shift();
         if (current.id === taskId) 
             return current;
         
-       for (let child of current.children) {
+
+        for (let child of current.children) {
             queue.push(child)
         }
     }
@@ -111,14 +126,15 @@ export const taskSelector = (taskId) =>  (state) => {
 }
 
 export const projectTasksSelector = (projectId) => (state) => state.tasks.tasks.filter((task) => task.projectId === projectId);
-export const searchTasksSelector = () => (state)  => {
+export const searchTasksSelector = () => (state) => {
     let queue = [...state.tasks.tasks];
     let tasks = []
     while (queue.length > 0) {
         const current = queue.shift();
         if (current.name.includes(state.tasks.searchKeyword)) 
             tasks.push(current)
-          for (let child of current.children) {
+        
+        for (let child of current.children) {
             queue.push(child)
         }
     }

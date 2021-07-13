@@ -26,13 +26,9 @@ export const useStyles = makeStyles((theme) => ({
     fab: {
         margin: theme.spacing(2)
     },
-    iconButton: {
-        backgroundColor: blue[700],
-        color: '#FAFAFA',
-        '&:hover': {
-            backgroundColor: "#2196f3"
-        },
-        marginBottom: theme.spacing(2),
-        marginLeft: theme.spacing(2)
+    IconButton: {
+        position: 'absolute',
+        bottom: theme.spacing(3),
+        right: theme.spacing(3)
     }
 }))

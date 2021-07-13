@@ -9,8 +9,6 @@ import {useLocation} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {tasksProjectSelector} from '../modules/projects/reducer';
 import {useDispatch} from 'react-redux';
-import {fetchToggleTaskForm} from '../modules/tasks/UI/tasksUI';
-import {fetchToggleProjectForm} from '../modules/projects/UI/projectsUI';
 import {Link} from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,23 +56,7 @@ export default function Header() {
                         {
                         projectTasks ? projectTasks.title : 'Projects'
                     } </Typography>
-                    {
-                    projectId ? <>
-                        <Typography>
-                            Task
-                        </Typography>
-                        <IconButton color="inherit" onClick= {() => dispatch(fetchToggleTaskForm(true))}>
-                            <AddIcon/>
-                        </IconButton>
-                    </> : <>
-                        <Typography>
-                            Project
-                        </Typography>
-                        <IconButton color="inherit" onClick= {() => dispatch(fetchToggleProjectForm(true))}>
-                            <AddIcon/>
-                        </IconButton>
-                    </>
-                } </Toolbar>
+                </Toolbar>
             </AppBar>
         </div>
     );
