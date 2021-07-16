@@ -12,8 +12,7 @@ import TaskNavigationList from './TaskNavigation/TaskNavigationList/TaskNavigati
 import {useStyles} from '../styles'
 import {fetchTaskSearch} from '../actionCreators';
 import {fetchToggleTaskForm} from '../UI/tasksUI';
-import {DndProvider} from 'react-dnd';
-import Backend from 'react-dnd-html5-backend';
+
 
 
 export const TaskContext = React.createContext('')
@@ -40,7 +39,7 @@ export default function Tasks() {
                 }>
                     <TaskNavigationList projectId={projectId}/>
                 </Grid>
-                <DndProvider backend={Backend}>
+                
                     <Grid item
                         className={
                             classes.item
@@ -57,7 +56,6 @@ export default function Tasks() {
                     }>
                         <TaskSearch/>
                     </Grid>
-                </DndProvider>
 
 
                 <TaskDialog/>

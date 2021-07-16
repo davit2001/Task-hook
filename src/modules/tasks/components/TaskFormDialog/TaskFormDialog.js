@@ -1,10 +1,10 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {Typography, Dialog} from "@material-ui/core";
-import {useStyles} from "../styles";
 import TaskFormDialogAction from './TaskFormDialogAction'
+import TaskFormDialogContent from "./TaskFormDialogContent";
 import {useSelector} from "react-redux";
 import {taskSelector} from '../../reducer'
-import TaskFormDialogContent from "./TaskFormDialogContent";
+
 export default function TaskFormDialog({
     projectId,
     tasks,
@@ -16,7 +16,6 @@ export default function TaskFormDialog({
     addTaskId,
     parentId
 }) {
-    const classes = useStyles();
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -36,7 +35,7 @@ export default function TaskFormDialog({
         e.preventDefault();
         if (name && description && assignee) {
             if (editId) {
-                let data = {
+                 updateTask({
                     id: editId,
                     parentId,
                     projectId,
@@ -45,8 +44,7 @@ export default function TaskFormDialog({
                     assignee,
                     status,
                     children: []
-                };
-                updateTask(data, parentId);
+                }, parentId);
             } else {
 
                 addTask({

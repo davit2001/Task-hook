@@ -50,7 +50,7 @@ export function fetchTaskId(id, bool) {
 }
 
 export function fetchToggleTaskDialog(bool, id) {
-    console.log('click', bool)
+    console.log('click', bool, id)
     return {
         type: TOGGLE_TASK_DIALOG,
         payload: {

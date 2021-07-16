@@ -6,7 +6,8 @@ import {
     UPDATE_TASKS
 } from "./constants/taskTypes";
 
-export function fetchTaskAdd(task,id) {
+export function fetchTaskAdd(task, id) {
+    console.log(task, id)
     return {type: ADD_TASK, payload: {
         task,
         id

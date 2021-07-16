@@ -11,7 +11,9 @@ const useStyles = makeStyles({
     navigationContainer: {
         display: 'flex',
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        overflowY: "auto",
+        height: "40rem"
     },
     TreeView: {
         height: 216,

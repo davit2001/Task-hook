@@ -10,6 +10,8 @@ import {fetchActiveClass} from "../../UI/tasksUI";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { fetchToggleTaskDialog } from "../../UI/tasksUI";
+import {nanoid} from "nanoid";
+import {fetchTaskAdd} from "../../actionCreators";
 
 export default function TaskItem({task, index, moveCard}) {
    
@@ -19,7 +21,7 @@ export default function TaskItem({task, index, moveCard}) {
     }, [])
 
     const ref = useRef(null);
-    const id = task.id
+    const id = task.id;
     const [{ handlerId }, drop] = useDrop({
         accept: "CARD",
         collect(monitor) {
@@ -51,6 +53,18 @@ export default function TaskItem({task, index, moveCard}) {
             item.index = hoverIndex;
         },
     });
+
+    const [, dropp] = useDrop({
+        accept: "ITEM",
+        drop: (item, monitor) => {
+              dispatch(fetchTaskAdd({
+                ...item.task,
+                id: nanoid(),
+                projectId: task.projectId,
+              }, task.id))
+        }
+    });
+
     const [{ isDragging }, drag] = useDrag({
         item:  {
             type: "CARD",
@@ -60,9 +74,15 @@ export default function TaskItem({task, index, moveCard}) {
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
+        canDrag() {
+           return  !task.parentId
+        }
     });
     const opacity = isDragging ? 0 : 1;
+
     drag(drop(ref));
+
+    dropp(ref);
 
     const active = useSelector(state => state.tasksUI.activeClass)
       
@@ -95,7 +115,7 @@ export default function TaskItem({task, index, moveCard}) {
                 }></CardHeader>
 
           </Card>
-            
+             
             {
             task.children && <> {
                 task.children.map((task, index) => {

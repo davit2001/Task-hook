@@ -1,17 +1,19 @@
 import React, {useCallback} from "react";
-import TaskItem from "./TaskItem/TaskItem";
 import {Container, Typography, makeStyles, Grid} from "@material-ui/core";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch} from "react-redux";
+import {fetchTasksUpdate, fetchTaskAdd} from "../actionCreators";
+import {useDrop} from "react-dnd";
+import {nanoid} from "nanoid";
+import update from "immutability-helper";
 import {projectTasksSelector} from "../reducer";
-import update from 'immutability-helper';
-import { useDispatch } from "react-redux";
-import { fetchTasksUpdate } from "../actionCreators";
+import TaskItem from "./TaskItem/TaskItem";
 import TaskItemDialog from "./TaskItemDialog";
 
 const useStyles = makeStyles({
     container: {
         overflowY: "auto",
-        height: "40rem"
+        height: "40rem",
+        backgroundColor: (isOver) => isOver && "#E0E0E0"
     },
     item: {
         wordWrap: "break-word"
@@ -19,37 +21,58 @@ const useStyles = makeStyles({
 });
 
 export default function TaskList({projectId}) {
-    const classes = useStyles();
     const tasks = useSelector(projectTasksSelector(projectId));
-   const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const taskId = useSelector((state) => state.tasksUI.taskId);
 
-const moveCard = useCallback((dragIndex, hoverIndex) => {
+    const [
+        {
+            isOver
+        }, drop
+    ] = useDrop({
+        accept: "ITEM",
+        drop: (item, monitor) => {
+            if (!monitor.didDrop()) {
+                dispatch(fetchTaskAdd({
+                    ...item.task,
+                    id: nanoid(),
+                    projectId
+                }, taskId));
+            }
+        },
+        collect: (monitor) => (
+            {
+                isOver: !!monitor.isOver()
+            }
+        )
+    });
+
+    const moveCard = useCallback((dragIndex, hoverIndex) => {
         const dragCard = tasks[dragIndex];
-         dispatch(fetchTasksUpdate(
-            update(tasks, {
-                $splice: [
-                    [
-                        dragIndex, 1
-                    ],
-                    [
-                        hoverIndex, 0, dragCard
-                    ],
-                ]
-            })
-        ))
-    }, [tasks]);
+        dispatch(fetchTasksUpdate(update(tasks, {
+            $splice: [
+                [
+                    dragIndex, 1
+                ],
+                [
+                    hoverIndex, 0, dragCard
+                ],
+            ]
+        })));
+    },);
 
+    const classes = useStyles(isOver);
     return (
         <Container className={
                 classes.container
             }
+            ref={drop}
             id="container">
             {
             tasks.length ? (
                 <> {
                     tasks && tasks.map((task, index) => (
                         <Grid item
-
                             id={
                                 task.id
                             }
@@ -59,7 +82,7 @@ const moveCard = useCallback((dragIndex, hoverIndex) => {
                             className={
                                 classes.item
                         }>
-                            <TaskItem task ={task}
+                            <TaskItem task={task}
                                 index={index}
                                 moveCard={moveCard}/>
                         </Grid>
@@ -68,9 +91,8 @@ const moveCard = useCallback((dragIndex, hoverIndex) => {
             ) : (
                 <Typography>Task does not exist</Typography>
             )
-            
-        } 
-        <TaskItemDialog tasks = {tasks}/>
+        }
+            <TaskItemDialog tasks={tasks}/>
         </Container>
     );
 }

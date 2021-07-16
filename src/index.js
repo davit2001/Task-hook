@@ -6,14 +6,18 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import {rootReducer} from "./modules/index";
 import {BrowserRouter as Router} from "react-router-dom";
+import {DndProvider} from 'react-dnd';
+import Backend from 'react-dnd-html5-backend';
 
 let store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 ReactDOM.render (
     <Router basename="/projects">
-        <Provider store={store}>
+        <DndProvider backend={Backend}>
+            <Provider store={store}>
             <App/>
         </Provider>
-    </Router>,
+        </DndProvider>
+     </Router>,
     document.getElementById("root")
 );
 

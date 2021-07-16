@@ -70,7 +70,7 @@ export const tasksUIReducer = (state = initialState, action) => {
                 }
             }
             return {
-                ...state, 
+                ...state,
                 isOpenTaskDialog: bool,
                 taskId: ''
             }

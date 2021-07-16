@@ -14,6 +14,7 @@ const initialState = {
 
 export const tasksReducer = (state = initialState, action) => {
     const getTask = (taskId) => {
+        console.log('taskId', taskId)
         let queue = [...state.tasks];
         while (queue.length > 0) {
             const current = queue.shift();
@@ -31,10 +32,14 @@ export const tasksReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TASK:
             if (action.payload.id) {
-                let parentTask = getTask((action.payload.id))
+                console.log('payload', action.payload)
+                let parentTask = getTask(action.payload.id)
+                console.log('parentTask', parentTask)
                 if (parentTask) {
+                    console.log(parentTask)
                     parentTask.children.push(action.payload.task)
                 }
+                console.log(parentTask)
                 return state
             }
             return {

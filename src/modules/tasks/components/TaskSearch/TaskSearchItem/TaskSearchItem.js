@@ -2,35 +2,35 @@ import React from "react";
 import {Card, CardHeader, CardContent, Typography} from "@material-ui/core";
 import {format} from "date-fns";
 import {makeStyles} from "@material-ui/core";
-import { useDrag } from 'react-dnd';
+import {useDrag} from "react-dnd";
 const useStyles = makeStyles((theme) => ({
-    item: {
-        marginTop: theme.spacing(3)
-    }
+    item: (isDragging) => (
+        {
+            marginTop: theme.spacing(3),
+            opacity: isDragging ? 0.3 : 1
+        }
+    )
 }));
 
 export default function TaskSearchItem({task}) {
-    const classes = useStyles();
-   
- const [{ isDragging }, drag] = useDrag({
-    
-		item: {
-			type: "CARD",
-			task,
-		},
-		collect: monitor => ({
-			isDragging: !!monitor.isDragging(),
-		}),
-	});
+    const [{ isDragging }, drag] = useDrag({
+        item: {
+            type: "ITEM",
+            task
+        },
+        collect: (monitor) => (
+            {
+                isDragging: !!monitor.isDragging()
+            }
+        )
+    });
+    const classes = useStyles(isDragging);
     return (
         <>
-            <Card 
-             ref = {drag}
-               className={
-                  classes.item
-              }
-              elevation = {isDragging ? 8 : 1}
-            >
+            <Card ref={drag}
+                className={
+                    classes.item
+            }>
                 <CardHeader title={
                         task.name
                     }
