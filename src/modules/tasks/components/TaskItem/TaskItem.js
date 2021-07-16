@@ -61,6 +61,7 @@ export default function TaskItem({task, index, moveCard}) {
                 ...item.task,
                 id: nanoid(),
                 projectId: task.projectId,
+                parentId: task.id,
               }, task.id))
         }
     });
